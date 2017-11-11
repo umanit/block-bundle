@@ -1,0 +1,145 @@
+{% block panel_widget %}
+    <div class="{{ form.vars.id }}panel-holder sortable items">
+
+        {# protos #}
+        {% for block_name, block_view in form.blocks %}
+            <div class="block-type"
+                 data-type="{{ block_name }}"
+                 data-name="{{ block_name }}"
+                 data-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
+            </div>
+        {% endfor %}
+
+        {% for block_name, block in form.vars.ordered_blocks %}
+
+            {% set block_type = form.blocks.offsetGet(block_name) %}
+
+            {% for block_form_view in block_type %}
+                {% if not block_form_view.rendered and block_form_view.vars.value == block %}
+                    {% set panel_block = block_form_view %}
+
+                    <div class="box box-default box-solid ui-sortable-handle{% if panel_block.vars.valid %} collapsed-box{% endif %}"
+                         data-block-type="{{ block_name }}"
+                         data-order="{{ panel_block.vars.value.position }}"
+                    >
+                        <div class="box-header with-border">
+                            <h3 class="box-title text-center">{{ block | raw }}</h3>
+                            <div class="box-tools pull-right">
+                                <span class="label bg-{% if block.id %}light-blue{% else %}yellow{% endif %}">{{ block_name }}</span>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                                <button type="button" class="btn btn-box-tool text-red" data-target="removeBoxItem"><i class="fa fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            {{ form_row(panel_block) }}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+
+    </div>
+
+    {{ form_row(form.block_select_type) }}
+
+    <script>
+      var $collectionHolder;
+      var $addblockSelect;
+
+      $(document).ready(function () {
+        $collectionHolder = $('div.{{ form.vars.id }}panel-holder');
+        $addblockSelect = $('#{{ form.block_select_type.vars.id }}');
+
+        // count the current form inputs we have (e.g. 2), use that as the new
+        // index when inserting a new item (e.g. 2)
+        $collectionHolder.data('index', $collectionHolder.find('.box').length);
+        $(document).on('change', $addblockSelect, function (e) {
+
+          e.preventDefault();
+          console.log($addblockSelect)
+
+          // Récupère la valeur sélectionnée dans l'options
+          var $selectedblockType = $addblockSelect.val();
+          var $selectedblockName = $addblockSelect.find(':selected').data('name');
+
+          // get the new index
+          var index = $collectionHolder.data('index');
+
+          // On retrouve le data-prototype associé
+          var $proto = $("div[data-type='" + $selectedblockType + "']").data('prototype');
+
+          if (typeof $proto === 'undefined') {
+            return;
+          }
+
+          var newForm = $proto.replace(/__name__/g, index);
+
+          // Construction du HTML
+          var box = $('<div class="box-body"></div>').append(newForm);
+          var embededItem = $(
+            '<div class="box box-default box-solid ui-sortable-handle" data-block-type="' + $selectedblockType + '" data-name="' + $selectedblockName + '" data-order="' + index + '">' +
+            '   <div class="box-header with-border"><h3 class="box-title">{{ 'New' | trans }} ' + $selectedblockName + '</h3>' +
+            '       <div class="box-tools pull-right"><span class="label bg-yellow">' + $selectedblockType + '</span>' +
+            '           <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>' +
+            '           <button type="button" class="btn btn-box-tool text-red" data-target="removeBoxItem"><i class="fa fa-trash"></i></button>' +
+            '       </div>' +
+            '   </div>' +
+            '</div>'
+          );
+          embededItem.append(box);
+
+          // increase the index with one for the next item
+          $collectionHolder.data('index', index + 1);
+
+          // Affichage du proto alimenté
+          $collectionHolder.append(embededItem);
+
+          // Scroll sur le nouvel element
+          $('html, body').animate({
+            scrollTop: embededItem.offset().top - 130
+          }, 800);
+
+          $addblockSelect.select2('val', '');
+
+          resetOrder();
+        });
+
+        // Met à jour l'ordre des blocs
+        function resetOrder() {
+          var i = 0;
+          $collectionHolder.children().each(function () {
+            $(this).find('[data-target="position"]:first-child').val(i);
+            i++;
+          });
+        }
+
+
+        // Trie des boites
+        $(".sortable").sortable({
+          handle: '.box-header',
+          placeholder: "ui-state-highlight",
+          forcePlaceholderSize: true,
+          stop: function (event, ui) {
+            resetOrder();
+          }
+        });
+
+        // Remove box item
+        $(document).on("click", '[data-target="removeBoxItem"]', function (e) {
+          e.preventDefault();
+          if (window.confirm("You're about to remove this block, confirm?")) {
+            $(this).parent().parent().parent().fadeOut(400, "swing", function () {
+              // get the new index
+              var index = $collectionHolder.data('index');
+              $(this).remove();
+              $collectionHolder.data('index', index - 1);
+              resetOrder();
+            });
+          }
+        });
+
+      });
+
+    </script>
+{% endblock %}

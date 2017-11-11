@@ -1,0 +1,7 @@
+services:
+
+    umanit_block.event_listener.panel_translate_event_subscriber:
+        class: Umanit\BlockBundle\EventSubscriber\PanelTranslateEventSubscriber
+        arguments: ['@doctrine.orm.entity_manager', '@umanit_translation.translator.entity_translator']
+        tags:
+            - { name: kernel.event_subscriber }

@@ -1,0 +1,21 @@
+services:
+    umanit_block.resolver.block_manager_resolver:
+        class: Umanit\BlockBundle\Resolver\BlockManagerResolver
+
+    umanit_block.twig.block_extension:
+        class: Umanit\BlockBundle\Twig\BlockExtension
+        arguments: ['@umanit_block.resolver.block_manager_resolver']
+        tags:
+            - { name: twig.extension }
+
+    umanit_block.event_listener.panel_event_subscriber:
+        class: Umanit\BlockBundle\EventSubscriber\PanelEventSubscriber
+        arguments: ['@umanit_block.resolver.block_manager_resolver']
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    umanit_block.form.panel_type:
+        class: Umanit\BlockBundle\Form\PanelType
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }
