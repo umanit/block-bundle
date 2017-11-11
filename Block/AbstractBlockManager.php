@@ -38,11 +38,9 @@ abstract class AbstractBlockManager extends AbstractType
     abstract public function render(BlockInterface $block): string;
 
     /**
-     * QuoteManager constructor.
-     *
      * @param EngineInterface $engine
      */
-    public function __construct(EngineInterface $engine)
+    public function setEngine(EngineInterface $engine)
     {
         $this->engine = $engine;
     }
