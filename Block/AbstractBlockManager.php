@@ -23,7 +23,6 @@ abstract class AbstractBlockManager extends AbstractType
     /**
      * This method must return the block entity managed by this block manager.
      *
-     * @example return QuoteTextBlock::class;
      * @return string
      */
     abstract public function getManagedBlockType(): string;
