@@ -123,9 +123,9 @@ class TitleAndText implements BlockInterface
     }
 }
 ```
-Then, create a Block Manager service.
-This service will define the form used to administrate your block.
-It will also allow you to define the rendering of the block in the front end.
+Then, create a `Block Manager` service.
+This service will define the form used to administrate your `Block`.
+It will also allow you to define the rendering of the `Block` in the front end.
 
 ```php
 <?php
@@ -190,7 +190,7 @@ class TitleAndTextManager extends AbstractBlockManager
     }
 }
 ```
-Finally, register your Block Manager as a service.
+Finally, register your `Block Manager as a service.
 
 ```yaml
 # app/config/services.yml
