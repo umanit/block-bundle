@@ -1,6 +1,6 @@
 # Umanit Block Bundle
 
-Doctrine Block management made easy.
+Doctrine Block managment made easy.
 
 * Simple implementation
 * Flexible
