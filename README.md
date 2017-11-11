@@ -218,7 +218,7 @@ Use the twig function `umanit_block_render` to render each of your blocks.
 
 This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle).
 Once translating a `Panel`, all the `Block` instances and their properties will also be translated.
-If you need a locale parameter in you `BlockManager` form (to filter an `EntityType for example), pass the parameter to the `PanelType` like so:
+If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter to the `PanelType` like so:
 
 ```php
 $builder->add('content', PanelType::class, ['locale' => 'be']);
