@@ -190,7 +190,7 @@ class TitleAndTextManager extends AbstractBlockManager
     }
 }
 ```
-Finally, register your `Block Manager as a service.
+Finally, register your `Block Manager` as a service.
 
 ```yaml
 # app/config/services.yml
