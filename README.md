@@ -78,7 +78,7 @@ use Umanit\BlockBundle\Form\PanelType;
 $builder->add('content', PanelType::class);
 ```
 
-### Create a Block entity and his Block Manager
+### Create a Block entity and its Block Manager
 
 Start by creating your Block entity like the following example:
 
