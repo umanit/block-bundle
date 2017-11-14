@@ -112,7 +112,10 @@ class PanelType extends AbstractType
 
         if ($form->getData()) {
             foreach ($form->getData()->getBlocks() as $block) {
-                $view->vars['ordered_blocks'][(new \ReflectionClass($block))->getShortName()] = $block;
+                $view->vars['ordered_blocks'][] = [
+                    'type'    => (new \ReflectionClass($block))->getShortName(),
+                    'content' => $block,
+                ];
             }
         }
     }

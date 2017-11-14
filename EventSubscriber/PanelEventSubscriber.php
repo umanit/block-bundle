@@ -46,7 +46,6 @@ class PanelEventSubscriber implements Common\EventSubscriber
     public function postLoad(ORM\Event\LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-
         if ($entity instanceof Panel) {
             $panelBlockInstances = new Common\Collections\ArrayCollection();
             // Fetch all blocks for each type
