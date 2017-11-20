@@ -30,7 +30,9 @@ class BlockManagerPass implements CompilerPassInterface
         foreach ($taggedServices as $id => $tags) {
             // Inject Template Engine
             $managerDefinition = $container->findDefinition($id);
-            $managerDefinition->addMethodCall('setEngine', [new Reference('templating')]);
+            $managerDefinition
+                ->addMethodCall('setEngine', [new Reference('templating')])
+                ->setLazy(true);
 
             $definition->addMethodCall('addBlockManager', [new Reference($id)]);
         }
