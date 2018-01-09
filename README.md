@@ -78,6 +78,16 @@ use Umanit\BlockBundle\Form\PanelType;
 $builder->add('content', PanelType::class);
 ```
 
+Every block manager is available by default, if you want to filter them, you can give an option `authorized_blocks`, an array of all the block types allowed to be select.
+
+```php
+use Umanit\BlockBundle\Form\PanelType;
+
+$builder->add('content', PanelType::class, [
+    'authorized_blocks' => [MyBlockManager::class]
+]);
+```
+
 ### Create a Block entity and its Block Manager
 
 Start by creating your Block entity like the following example:

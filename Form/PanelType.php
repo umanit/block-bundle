@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\Valid;
 use Umanit\BlockBundle\Block\AbstractBlockManager;
 use Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer;
@@ -32,27 +33,50 @@ class PanelType extends AbstractType
     private $em;
 
     /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    /**
      * PanelType constructor.
      *
      * @param BlockManagerResolver   $blockManagerResolver
      * @param EntityManagerInterface $em
+     * @param TranslatorInterface    $translator
      */
-    public function __construct(BlockManagerResolver $blockManagerResolver, EntityManagerInterface $em)
-    {
+    public function __construct(
+        BlockManagerResolver $blockManagerResolver,
+        EntityManagerInterface $em,
+        TranslatorInterface $translator
+    ) {
         $this->blockManagerResolver = $blockManagerResolver;
+        $this->translator           = $translator;
         $this->em                   = $em;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        // Filter blocks available
+        $blockManagers = [];
+        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
+            if (
+                !empty($options['authorized_blocks']) &&
+                array_search($blockManager->getManagedBlockType(), $options['authorized_blocks']) === false
+            ) {
+                continue;
+            }
+
+            $blockManagers[] = $blockManager;
+        }
+
         // Add block select type
         $builder
             ->add('block_select_type', ChoiceType::class, [
                 'mapped'       => false,
-                'choices'      => $this->blockManagerResolver->getAll(),
+                'choices'      => $blockManagers,
                 'label'        => false,
                 'choice_label' => function (AbstractBlockManager $value) {
-                    return (new \ReflectionClass($value->getManagedBlockType()))->getShortName();
+                    return $this->translator->trans($value->getPublicName());
                 },
                 'choice_value' => function ($value) {
                     return null === $value ? '' : (new \ReflectionClass($value->getManagedBlockType()))->getShortName();
@@ -62,13 +86,14 @@ class PanelType extends AbstractType
                 ],
                 'choice_attr'  => function (AbstractBlockManager $value) {
                     return [
-                        'data-target' => 'type-' . (new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
-                        'data-name'   => (new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
+                        'data-target' => 'type-'.(new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
+                        'data-name'   => $this->translator->trans($value->getPublicName()),
                     ];
                 },
                 'required'     => false,
                 'placeholder'  => 'Add a new block',
-            ]);
+            ])
+        ;
 
         $blocks = $builder->create('blocks', FormType::class, [
             'compound' => true,
@@ -76,15 +101,15 @@ class PanelType extends AbstractType
         ]);
 
         // Adds the form associated to block types
-        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
-            $blockName = (new \ReflectionClass($blockManager->getManagedBlockType()))->getShortName();
+        foreach ($blockManagers as $blockManager) {
+            $blockName      = (new \ReflectionClass($blockManager->getManagedBlockType()))->getShortName();
             $blockOptions   = [
                 'by_reference'  => false,
                 'entry_type'    => get_class($blockManager),
                 'entry_options' => ['label' => false, 'locale' => $options['locale']],
                 'attr'          => [
                     'data-type' => $blockName,
-                    'data-name' => $blockName,
+                    'data-name' => $this->translator->trans($blockManager->getPublicName()),
                 ],
                 'label'         => false,
                 'required'      => false,
@@ -121,15 +146,15 @@ class PanelType extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'locale'     => 'en',
+            'locale'            => 'en',
+            'authorized_blocks' => [],
         ]);
     }
-
 }
