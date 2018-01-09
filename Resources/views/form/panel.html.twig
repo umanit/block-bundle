@@ -29,7 +29,7 @@
                         <div class="box-header with-border">
                             <h3 class="box-title text-center">{{ block | raw }}</h3>
                             <div class="box-tools pull-right">
-                                <span class="label bg-{% if block.id %}light-blue{% else %}yellow{% endif %}">{{ block_name }}</span>
+                                <span class="label bg-{% if block.id %}light-blue{% else %}yellow{% endif %}">{{ item.name }}</span>
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
                                 <button type="button" class="btn btn-box-tool text-red" data-target="removeBoxItem"><i class="fa fa-trash"></i></button>
                             </div>

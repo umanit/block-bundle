@@ -57,17 +57,7 @@ class PanelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Filter blocks available
-        $blockManagers = [];
-        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
-            if (
-                !empty($options['authorized_blocks']) &&
-                array_search($blockManager->getManagedBlockType(), $options['authorized_blocks']) === false
-            ) {
-                continue;
-            }
-
-            $blockManagers[] = $blockManager;
-        }
+        $blockManagers = $this->getBlockManagers();
 
         // Add block select type
         $builder
@@ -134,13 +124,21 @@ class PanelType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['ordered_blocks'] = [];
+        $blockManagers = $this->getBlockManagers();
 
         if ($form->getData()) {
             foreach ($form->getData()->getBlocks() as $block) {
-                $view->vars['ordered_blocks'][] = [
-                    'type'    => (new \ReflectionClass($block))->getShortName(),
-                    'content' => $block,
-                ];
+                foreach ($blockManagers as $blockManager) {
+                    if ((new \ReflectionClass($block))->getName() !== $blockManager->getManagedBlockType()) {
+                        continue;
+                    }
+
+                    $view->vars['ordered_blocks'][] = [
+                        'name'    => $this->translator->trans($blockManager->getPublicName()),
+                        'type'    => (new \ReflectionClass($block))->getShortName(),
+                        'content' => $block,
+                    ];
+                }
             }
         }
     }
@@ -156,5 +154,22 @@ class PanelType extends AbstractType
             'locale'            => 'en',
             'authorized_blocks' => [],
         ]);
+    }
+
+    public function getBlockManagers(): array 
+    {
+        $blockManagers = [];
+        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
+            if (
+                !empty($options['authorized_blocks']) &&
+                array_search($blockManager->getManagedBlockType(), $options['authorized_blocks']) === false
+            ) {
+                continue;
+            }
+
+            $blockManagers[] = $blockManager;
+        }
+
+        return $blockManagers;
     }
 }
