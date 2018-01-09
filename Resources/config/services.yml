@@ -16,6 +16,6 @@ services:
 
     umanit_block.form.panel_type:
         class: Umanit\BlockBundle\Form\PanelType
-        arguments: ['@umanit_block.resolver.block_manager_resolver', '@doctrine.orm.entity_manager']
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@doctrine.orm.entity_manager', '@translator']
         tags:
             - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }

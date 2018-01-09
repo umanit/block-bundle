@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Umanit\BlockBundle\Block;
 
 use Symfony\Component\Form\AbstractType;
@@ -45,7 +44,7 @@ abstract class AbstractBlockManager extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      *
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -56,7 +55,22 @@ abstract class AbstractBlockManager extends AbstractType
     }
 
     /**
-     * @inheritdoc
+     * Returns the name to use in the Panel form.
+     *
+     * @return string
+     */
+    public function getPublicName()
+    {
+        $elements = preg_split(
+            "/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/",
+            (new \ReflectionClass($this->getManagedBlockType()))->getShortName()
+        );
+
+        return trim(implode(' ', $elements));
+    }
+
+    /**
+     * {@inheritdoc}
      *
      * @param OptionsResolver $resolver
      */
@@ -67,5 +81,4 @@ abstract class AbstractBlockManager extends AbstractType
             'locale'     => 'en',
         ]);
     }
-
 }
