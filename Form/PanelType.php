@@ -156,7 +156,12 @@ class PanelType extends AbstractType
         ]);
     }
 
-    public function getBlockManagers(): array 
+    /**
+     * Returns all block managers available
+     *
+     * @return array
+     */
+    public function getBlockManagers()
     {
         $blockManagers = [];
         foreach ($this->blockManagerResolver->getAll() as $blockManager) {

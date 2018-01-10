@@ -84,7 +84,7 @@ Every block manager is available by default, if you want to filter them, you can
 use Umanit\BlockBundle\Form\PanelType;
 
 $builder->add('content', PanelType::class, [
-    'authorized_blocks' => [MyBlockManager::class]
+    'authorized_blocks' => [MyBlock::class]
 ]);
 ```
 
