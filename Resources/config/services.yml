@@ -4,7 +4,7 @@ services:
 
     umanit_block.twig.block_extension:
         class: Umanit\BlockBundle\Twig\BlockExtension
-        arguments: ['@umanit_block.resolver.block_manager_resolver']
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@logger', '%kernel.debug%']
         tags:
             - { name: twig.extension }
 
