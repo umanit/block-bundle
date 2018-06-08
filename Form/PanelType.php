@@ -57,7 +57,7 @@ class PanelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         // Filter blocks available
-        $blockManagers = $this->getBlockManagers();
+        $blockManagers = $this->getBlockManagers($options);
 
         // Add block select type
         $builder
@@ -124,7 +124,7 @@ class PanelType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['ordered_blocks'] = [];
-        $blockManagers = $this->getBlockManagers();
+        $blockManagers = $this->getBlockManagers($options);
 
         if ($form->getData()) {
             foreach ($form->getData()->getBlocks() as $block) {
@@ -159,15 +159,16 @@ class PanelType extends AbstractType
     /**
      * Returns all block managers available
      *
+     * @param array $options
+     *
      * @return array
      */
-    public function getBlockManagers()
+    public function getBlockManagers(array $options)
     {
         $blockManagers = [];
         foreach ($this->blockManagerResolver->getAll() as $blockManager) {
-            if (
-                !empty($options['authorized_blocks']) &&
-                array_search($blockManager->getManagedBlockType(), $options['authorized_blocks']) === false
+            if (!empty($options['authorized_blocks']) &&
+                !\in_array($blockManager->getManagedBlockType(), $options['authorized_blocks'], true)
             ) {
                 continue;
             }
