@@ -7,7 +7,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Umanit\BlockBundle\Entity\Panel;
 use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\TranslationBundle\Event\TranslateEvent;
-use Umanit\TranslationBundle\Translator\EntityTranslator;
+use Umanit\TranslationBundle\Translation\EntityTranslator;
 
 /**
  * @author Arthur Guigand <aguigand@umanit.fr>
