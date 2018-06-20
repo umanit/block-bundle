@@ -1,7 +1,10 @@
 services:
 
-    umanit_block.event_listener.panel_translate_event_subscriber:
-        class: Umanit\BlockBundle\EventSubscriber\PanelTranslateEventSubscriber
-        arguments: ['@doctrine.orm.entity_manager', '@umanit_translation.translation.entity_translator']
+    umanit_block.translation_handler.panel_handler:
+        class: Umanit\BlockBundle\TranslationHandler\PanelHandler
         tags:
-            - { name: kernel.event_subscriber }
+            - { name: umanit_translation.translation_handler, priority: 15 }
+        arguments:
+            - '@umanit_translation.translation.entity_translator'
+            - '@property_accessor'
+            - '@doctrine.orm.entity_manager'
