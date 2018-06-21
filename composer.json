@@ -16,7 +16,7 @@
         "symfony/framework-bundle": ">=2.3",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
-        "umanit/translation-bundle": "v1.x-dev",
+        "umanit/translation-bundle": ">=1.0",
         "twig/twig": "~2.4"
     },
     "minimum-stability": "stable",
