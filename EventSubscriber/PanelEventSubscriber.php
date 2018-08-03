@@ -35,7 +35,13 @@ class PanelEventSubscriber implements Common\EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return [ORM\Events::postLoad, ORM\Events::preUpdate, ORM\Events::postUpdate];
+        return [
+            ORM\Events::postLoad,
+            ORM\Events::preUpdate,
+            ORM\Events::postUpdate,
+            ORM\Events::postUpdate,
+            ORM\Events::postPersist,
+        ];
     }
 
     /**
@@ -46,28 +52,31 @@ class PanelEventSubscriber implements Common\EventSubscriber
     public function postLoad(ORM\Event\LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
-        if ($entity instanceof Panel) {
-            $panelBlockInstances = new Common\Collections\ArrayCollection();
-            // Fetch all blocks for each type
-            foreach ($this->blockManagerResolver->getAll() as $blockManager) {
 
-                $repo           = $args->getObjectManager()->getRepository($blockManager->getManagedBlockType());
-                $blockInstances = $repo->findBy(['panel' => $entity]);
-
-                if (!empty($blockInstances)) {
-                    foreach ($blockInstances as $blockInstance) {
-                        $panelBlockInstances->add($blockInstance);
-                    }
-                }
-            }
-
-            // Sort $blockInstances by position
-            $panelBlockInstances = $panelBlockInstances
-                ->matching(Criteria::create()->orderBy(['position' => Criteria::ASC]));
-
-            // Inject $blockInstances into the panel
-            $entity->setBlocks($panelBlockInstances);
+        if (!$entity instanceof Panel) {
+            return;
         }
+        $panelBlockInstances = new Common\Collections\ArrayCollection();
+        // Fetch all blocks for each type
+        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
+
+            $repo           = $args->getObjectManager()->getRepository($blockManager->getManagedBlockType());
+            $blockInstances = $repo->findBy(['panel' => $entity]);
+
+            if (empty($blockInstances)) {
+                continue;
+            }
+            foreach ($blockInstances as $blockInstance) {
+                $panelBlockInstances->add($blockInstance);
+            }
+        }
+
+        // Sort $blockInstances by position
+        $panelBlockInstances = $panelBlockInstances
+            ->matching(Criteria::create()->orderBy(['position' => Criteria::ASC]));
+
+        // Inject $blockInstances into the panel
+        $entity->setBlocks($panelBlockInstances);
     }
 
     /**
@@ -79,45 +88,67 @@ class PanelEventSubscriber implements Common\EventSubscriber
     {
         $entity = $args->getEntity();
 
-        if ($entity instanceof Panel) {
+        if (!$entity instanceof Panel) {
+            return;
+        }
 
-            // Removes the orphans
-            foreach ($this->blockManagerResolver->getAll() as $blockManager) {
+        // Removes the orphans
+        foreach ($this->blockManagerResolver->getAll() as $blockManager) {
+            $repo           = $args->getObjectManager()->getRepository($blockManager->getManagedBlockType());
+            $blockInstances = $repo->findBy(['panel' => $entity]);
 
-                $repo           = $args->getObjectManager()->getRepository($blockManager->getManagedBlockType());
-                $blockInstances = $repo->findBy(['panel' => $entity]);
+            if (empty($blockInstances)) {
+                continue;
+            }
 
-                if (!empty($blockInstances)) {
-                    foreach ($blockInstances as $blockInstance) {
-                        // Removes the instance if it's not in the entity (it's been removed)
-                        if (!$entity->getBlocks()->contains($blockInstance)) {
-                            $args->getObjectManager()->remove($blockInstance);
-                        }
-                    }
+            foreach ($blockInstances as $blockInstance) {
+                // Removes the instance if it's not in the entity (it's been removed)
+                if (!$entity->getBlocks()->contains($blockInstance)) {
+                    $args->getObjectManager()->remove($blockInstance);
                 }
             }
         }
     }
 
     /**
-     * PostUpdate for adding the new blocks.
+     * PostUpdate for persisting the new blocks.
      *
      * @param ORM\Event\LifecycleEventArgs $args
      */
     public function postUpdate(ORM\Event\LifecycleEventArgs $args)
     {
-        $entity = $args->getEntity();
-
-        if ($entity instanceof Panel) {
-            // Adds the new blocks
-            foreach ($entity->getBlocks() as $block) {
-                if ($block->getId() === null) {
-                    $block->setPanel($entity);
-                    $args->getObjectManager()->persist($block);
-                }
-            }
-            $args->getObjectManager()->flush();
-        }
+        $this->associateBlocksToPanel($args);
     }
 
+    /**
+     * PostPersist for persisting the new blocks.
+     *
+     * @param ORM\Event\LifecycleEventArgs $args
+     */
+    public function postPersist(ORM\Event\LifecycleEventArgs $args)
+    {
+        $this->associateBlocksToPanel($args);
+    }
+
+    /**
+     * Persists the association Panel-Blocks on persist/update.
+     *
+     * @param ORM\Event\LifecycleEventArgs $args
+     */
+    private function associateBlocksToPanel(ORM\Event\LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+
+        if (!$entity instanceof Panel) {
+            return;
+        }
+
+        // Adds the new blocks
+        foreach ($entity->getBlocks() as $block) {
+            $block->setPanel($entity);
+            $args->getObjectManager()->persist($block);
+        }
+
+        $args->getObjectManager()->flush();
+    }
 }
