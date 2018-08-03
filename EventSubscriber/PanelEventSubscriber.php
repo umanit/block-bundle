@@ -103,7 +103,7 @@ class PanelEventSubscriber implements Common\EventSubscriber
 
             foreach ($blockInstances as $blockInstance) {
                 // Removes the instance if it's not in the entity (it's been removed)
-                if (!$entity->getBlocks()->contains($blockInstance)) {
+                if (null === $entity->getBlocks() || !$entity->getBlocks()->contains($blockInstance)) {
                     $args->getObjectManager()->remove($blockInstance);
                 }
             }
@@ -140,6 +140,10 @@ class PanelEventSubscriber implements Common\EventSubscriber
         $entity = $args->getEntity();
 
         if (!$entity instanceof Panel) {
+            return;
+        }
+
+        if (null === $entity->getBlocks()) {
             return;
         }
 
