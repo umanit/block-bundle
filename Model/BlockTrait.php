@@ -23,7 +23,7 @@ trait BlockTrait
      * @var Panel
      *
      * @ORM\ManyToOne(targetEntity="Umanit\BlockBundle\Entity\Panel")
-     * @ORM\JoinColumn(name="panel_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="panel_id", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $panel;
 
