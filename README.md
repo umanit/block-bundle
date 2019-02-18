@@ -34,6 +34,13 @@ Register the bundle to your 'app/AppKernel.php'
     new Umanit\BlockBundle\UmanitBlockBundle(),
 ```
 
+Add CSS and JS in global layout
+
+```twig
+  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/css/panel.css') }}">
+  <script src="{{ asset('bundles/umanitblock/js/panel.js') }}"></script>
+```
+
 ## Usage
 
 ### Terminology

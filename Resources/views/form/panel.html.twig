@@ -1,7 +1,6 @@
 {% block panel_widget %}
-  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/css/panel.css') }}">
 
-  <div class="{{ form.vars.id }}panel-holder sortable items">
+  <div id="{{ form.vars.id }}" class="panel-holder sortable items">
 
     {# protos #}
     {% for block_name, block_view in form.blocks %}
@@ -44,19 +43,14 @@
       {% endfor %}
     {% endfor %}
 
-
   </div>
 
-  {{ form_row(form.block_select_type) }}
+  {{ form_row(form.block_select_type, {'attr': {'data-behavior': 'add-block', 'data-panel-id': form.vars.id }}) }}
 
   <script>
     var
-      PANEL_SELECTOR = '.{{ form.vars.id }}panel-holder',
-      SELECT_SELECTOR = '#{{ form.block_select_type.vars.id }}',
       NEW_BLOCK_STR = '{{ 'New' | trans }} ',
       NOT_SAVED_STR = '{{ 'This block has not been saved'|trans }}';
   </script>
-  <script src="{{ asset('bundles/umanitblock/js/panel.js') }}"></script>
 
 {% endblock %}
-

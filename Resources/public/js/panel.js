@@ -1,73 +1,73 @@
-// jQuery objects
-var $collectionHolder, $addBlockSelect;
-
 $(document).ready(function () {
-  $collectionHolder = $(PANEL_SELECTOR);
-  $addBlockSelect = $(SELECT_SELECTOR);
 
-  // count the current form inputs we have (e.g. 2), use that as the new
-  // index when inserting a new item (e.g. 2)
-  $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
+  $('[data-behavior="add-block"]').each(function () {
+    $addBlockSelect = $(this);
+    $collectionHolder = $('#' + $addBlockSelect.data('panel-id'));
 
-  $(document).on('change', $addBlockSelect, function (e) {
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
 
-    e.preventDefault();
+    $(document).on('change', $addBlockSelect, function (e) {
 
-    // Get selected option value
-    var selectedblockType = $addBlockSelect.val();
-    var selectedblockName = $addBlockSelect.find(':selected').data('name');
+      e.preventDefault();
 
-    // Get the new index
-    var index = $collectionHolder.data('index');
+      // Get selected option value
+      var selectedblockType = $addBlockSelect.val();
+      var selectedblockName = $addBlockSelect.find(':selected').data('name');
 
-    // Get the prototype data
-    var proto = $("div[data-type='" + selectedblockType + "']").data('prototype');
+      // Get the new index
+      var index = $collectionHolder.data('index');
 
-    if (typeof proto === 'undefined') {
-      return;
-    }
+      // Get the prototype data
+      var proto = $("div[data-type='" + selectedblockType + "']").data('prototype');
 
-    var newForm = proto.replace(/__name__/g, index);
+      if (typeof proto === 'undefined') {
+        return;
+      }
 
-    // HTML template
-    var $ublock = $('<div class="ublock-body"></div>').append(newForm);
-    var $embededItem = $(
-      '<div class="ublock ui-sortable-handle" data-block-type="' + selectedblockType + '" data-name="' + selectedblockName + '" data-order="' + index + '">' +
-      '   <div class="ublock-header"><h3 class="ublock-title">' + NEW_BLOCK_STR + selectedblockName + '</h3>' +
-      '       <div class="ublock-tools"><span title="' + NOT_SAVED_STR + '" class="ublock-label bg-yellow">' + selectedblockName + '</span>' +
-      '           <button type="button" class="btn btn-ublock-tool" data-target="removeBoxItem"><i class="fa fa-trash"></i></button>' +
-      '           <button type="button" class="btn btn-ublock-tool" data-collapse="ublock-body"><i class="fa fa-caret-up"></i></button>' +
-      '       </div>' +
-      '   </div>' +
-      '</div>'
-    );
-    $embededItem.append($ublock);
+      var newForm = proto.replace(/__name__/g, index);
 
-    // increment the index with one for the next item
-    $collectionHolder.data('index', index + 1);
+      // HTML template
+      var $ublock = $('<div class="ublock-body"></div>').append(newForm);
+      var $embededItem = $(
+        '<div class="ublock ui-sortable-handle" data-block-type="' + selectedblockType + '" data-name="' + selectedblockName + '" data-order="' + index + '">' +
+        '   <div class="ublock-header"><h3 class="ublock-title">' + NEW_BLOCK_STR + selectedblockName + '</h3>' +
+        '       <div class="ublock-tools"><span title="' + NOT_SAVED_STR + '" class="ublock-label bg-yellow">' + selectedblockName + '</span>' +
+        '           <button type="button" class="btn btn-ublock-tool" data-target="removeBoxItem"><i class="fa fa-trash"></i></button>' +
+        '           <button type="button" class="btn btn-ublock-tool" data-collapse="ublock-body"><i class="fa fa-caret-up"></i></button>' +
+        '       </div>' +
+        '   </div>' +
+        '</div>'
+      );
+      $embededItem.append($ublock);
 
-    // Display html content
-    $collectionHolder.append($embededItem);
+      // increment the index with one for the next item
+      $collectionHolder.data('index', index + 1);
 
-    // Scroll to newly created block
-    $('html, body').animate({
-      scrollTop: $embededItem.offset().top - 130
-    }, 800);
+      // Display html content
+      $collectionHolder.append($embededItem);
 
-    // Reset select
-    if (typeof Select2 === "object") {
-      // Using jQuerySelect2
-      $addBlockSelect.select2('val', '');
-    } else {
-      // Using only jQuery
-      $addBlockSelect.val('');
-    }
+      // Scroll to newly created block
+      $('html, body').animate({
+        scrollTop: $embededItem.offset().top - 130
+      }, 800);
 
-    resetOrder();
+      // Reset select
+      if (typeof Select2 === "object") {
+        // Using jQuerySelect2
+        $addBlockSelect.select2('val', '');
+      } else {
+        // Using only jQuery
+        $addBlockSelect.val('');
+      }
+
+      resetOrder($collectionHolder);
+    });
   });
 
   // Update block order
-  function resetOrder() {
+  function resetOrder($collectionHolder) {
     var i = 0;
     $collectionHolder.children().each(function () {
       $(this).find('[data-target="position"]:first-child').val(i);
@@ -81,7 +81,8 @@ $(document).ready(function () {
     placeholder: "ui-state-highlight",
     forcePlaceholderSize: true,
     stop: function (event, ui) {
-      resetOrder();
+      var $collectionHolder = ui.item.closest('.panel-holder');
+      resetOrder($collectionHolder);
     }
   });
 
@@ -91,10 +92,11 @@ $(document).ready(function () {
     if (window.confirm("You're about to remove this block, confirm?")) {
       $(this).closest('.ublock').fadeOut(400, "swing", function () {
         // get the new index
+        var $collectionHolder = $(this).closest('.panel-holder');
         var index = $collectionHolder.data('index');
         $(this).remove();
         $collectionHolder.data('index', index - 1);
-        resetOrder();
+        resetOrder($collectionHolder);
       });
     }
   });
