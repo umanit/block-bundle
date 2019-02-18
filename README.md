@@ -19,6 +19,13 @@ Searching, indexing, managing relations, primary and unique keys... you name it,
 
 UmanitBlockBundle intends to solve this problem by giving back their entities to the developers.
 
+## Front requirements
+
+* jQuery
+* [jQueryUI sortable](https://jqueryui.com/sortable/)
+* [FontAwesome](https://fontawesome.com/)
+* jQuery [Select2](https://select2.org/) (best have)
+
 ## Install
 
 Register the bundle to your 'app/AppKernel.php'
