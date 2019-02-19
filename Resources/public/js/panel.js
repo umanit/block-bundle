@@ -69,8 +69,8 @@ $(document).ready(function () {
   // Update block order
   function resetOrder($collectionHolder) {
     var i = 0;
-    $collectionHolder.children().each(function () {
-      $(this).find('[data-target="position"]:first-child').val(i);
+    $collectionHolder.find('[data-target="position"]').each(function () {
+      $(this).val(i);
       i++;
     });
   }
