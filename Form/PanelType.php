@@ -102,7 +102,6 @@ class PanelType extends AbstractType
                     'data-name' => $this->translator->trans($blockManager->getPublicName()),
                 ],
                 'label'         => false,
-                'required'      => false,
                 'allow_add'     => true,
                 'allow_delete'  => true,
                 'constraints'   => [
