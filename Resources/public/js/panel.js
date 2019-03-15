@@ -49,7 +49,7 @@ $(document).ready(function () {
       $collectionHolder.append($embededItem);
 
       // add custom javascript event on the new panel
-      var eventItem = new CustomEvent('item.added', { 'detail' : $embededItem });
+      var eventItem = new CustomEvent('ublock.after_added', { 'detail' : $embededItem });
       document.dispatchEvent(eventItem);
       
       // Scroll to newly created block
