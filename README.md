@@ -92,13 +92,18 @@ use Umanit\BlockBundle\Form\PanelType;
 $builder->add('content', PanelType::class);
 ```
 
-Every block manager is available by default, if you want to filter them, you can give an option `authorized_blocks`, an array of all the block types allowed to be selected.
+Every block manager is available by default, if you want to filter them, you can give an option `authorized_blocks`, an array of all the block types allowed to be selected,
+or `unauthorized_blocks`, an array of all the block types not allowed to be selected.
 
 ```php
 use Umanit\BlockBundle\Form\PanelType;
 
 $builder->add('content', PanelType::class, [
     'authorized_blocks' => [MyBlock::class]
+]);
+
+$builder->add('content', PanelType::class, [
+    'unauthorized_blocks' => [MyBlock::class]
 ]);
 ```
 
