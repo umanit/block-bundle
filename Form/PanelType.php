@@ -178,8 +178,9 @@ class PanelType extends AbstractType
                 continue;
             }
 
-            $blockManagers[] = $blockManager;
+            $blockManagers[$this->translator->trans($blockManager->getPublicName())] = $blockManager;
         }
+        ksort($blockManagers);
 
         return $blockManagers;
     }
