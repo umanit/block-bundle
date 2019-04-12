@@ -93,17 +93,18 @@ class PanelType extends AbstractType
         foreach ($blockManagers as $blockManager) {
             $blockName    = (new \ReflectionClass($blockManager->getManagedBlockType()))->getShortName();
             $blockOptions = [
-                'by_reference'  => false,
-                'entry_type'    => get_class($blockManager),
-                'entry_options' => ['label' => false, 'locale' => $options['locale']],
-                'attr'          => [
-                    'data-type' => $blockName,
-                    'data-name' => $this->translator->trans($blockManager->getPublicName()),
+                'by_reference'   => false,
+                'entry_type'     => get_class($blockManager),
+                'entry_options'  => ['label' => false, 'locale' => $options['locale']],
+                'attr'           => [
+                    'data-type'  => $blockName,
+                    'data-name'  => $this->translator->trans($blockManager->getPublicName()),
                 ],
-                'label'         => false,
-                'allow_add'     => true,
-                'allow_delete'  => true,
-                'constraints'   => [
+                'label'          => false,
+                'allow_add'      => true,
+                'allow_delete'   => true,
+                'prototype_name' => 'umanit_block',
+                'constraints'    => [
                     new Valid(),
                 ],
             ];
