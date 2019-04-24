@@ -103,7 +103,7 @@ class PanelType extends AbstractType
                 'label'          => false,
                 'allow_add'      => true,
                 'allow_delete'   => true,
-                'prototype_name' => 'umanit_block',
+                'prototype_name' => '__umanit_block__',
                 'constraints'    => [
                     new Valid(),
                 ],
