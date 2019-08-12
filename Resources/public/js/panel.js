@@ -26,7 +26,7 @@ $(document).ready(function () {
         return;
       }
 
-      var newForm = proto.replace(/__name__/g, index);
+      var newForm = proto.replace(/__umanit_block__/g, index);
 
       // HTML template
       var $ublock = $('<div class="ublock-body"></div>').append(newForm);
@@ -47,6 +47,10 @@ $(document).ready(function () {
 
       // Display html content
       $collectionHolder.append($embededItem);
+
+      // add custom javascript event on the new panel
+      var eventItem = new CustomEvent('ublock.after_added', { 'detail' : $embededItem });
+      document.dispatchEvent(eventItem);
 
       // Scroll to newly created block
       $('html, body').animate({

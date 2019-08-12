@@ -82,8 +82,7 @@ class PanelType extends AbstractType
                 },
                 'required'     => false,
                 'placeholder'  => 'Add a new block',
-            ])
-        ;
+            ]);
 
         $blocks = $builder->create('blocks', FormType::class, [
             'compound' => true,
@@ -92,20 +91,20 @@ class PanelType extends AbstractType
 
         // Adds the form associated to block types
         foreach ($blockManagers as $blockManager) {
-            $blockName      = (new \ReflectionClass($blockManager->getManagedBlockType()))->getShortName();
-            $blockOptions   = [
-                'by_reference'  => false,
-                'entry_type'    => get_class($blockManager),
-                'entry_options' => ['label' => false, 'locale' => $options['locale']],
-                'attr'          => [
-                    'data-type' => $blockName,
-                    'data-name' => $this->translator->trans($blockManager->getPublicName()),
+            $blockName    = (new \ReflectionClass($blockManager->getManagedBlockType()))->getShortName();
+            $blockOptions = [
+                'by_reference'   => false,
+                'entry_type'     => get_class($blockManager),
+                'entry_options'  => ['label' => false, 'locale' => $options['locale']],
+                'attr'           => [
+                    'data-type'  => $blockName,
+                    'data-name'  => $this->translator->trans($blockManager->getPublicName()),
                 ],
-                'label'         => false,
-                'required'      => false,
-                'allow_add'     => true,
-                'allow_delete'  => true,
-                'constraints'   => [
+                'label'          => false,
+                'allow_add'      => true,
+                'allow_delete'   => true,
+                'prototype_name' => '__umanit_block__',
+                'constraints'    => [
                     new Valid(),
                 ],
             ];
@@ -124,7 +123,7 @@ class PanelType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options)
     {
         $view->vars['ordered_blocks'] = [];
-        $blockManagers = $this->getBlockManagers($options);
+        $blockManagers                = $this->getBlockManagers($options);
 
         if ($form->getData()) {
             foreach ($form->getData()->getBlocks() as $block) {
@@ -151,8 +150,9 @@ class PanelType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'locale'            => 'en',
-            'authorized_blocks' => [],
+            'locale'              => 'en',
+            'authorized_blocks'   => [],
+            'unauthorized_blocks' => [],
         ]);
     }
 
@@ -173,8 +173,15 @@ class PanelType extends AbstractType
                 continue;
             }
 
-            $blockManagers[] = $blockManager;
+            if (!empty($options['unauthorized_blocks']) &&
+                in_array($blockManager->getManagedBlockType(), $options['unauthorized_blocks'], true)
+            ) {
+                continue;
+            }
+
+            $blockManagers[$this->translator->trans($blockManager->getPublicName())] = $blockManager;
         }
+        ksort($blockManagers);
 
         return $blockManagers;
     }
