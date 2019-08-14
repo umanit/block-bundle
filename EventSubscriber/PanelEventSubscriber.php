@@ -5,6 +5,7 @@ namespace Umanit\BlockBundle\EventSubscriber;
 use \Doctrine\ORM;
 use \Doctrine\Common;
 use Umanit\BlockBundle\Entity\Panel;
+use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 use Doctrine\Common\Collections\Criteria;
 
@@ -87,6 +88,10 @@ class PanelEventSubscriber implements Common\EventSubscriber
     public function preUpdate(ORM\Event\LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
+
+        if ($entity instanceof BlockInterface) {
+            $entity = $entity->getPanel();
+        }
 
         if (!$entity instanceof Panel) {
             return;
