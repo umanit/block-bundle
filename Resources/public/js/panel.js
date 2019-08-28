@@ -1,14 +1,10 @@
 $(document).ready(function () {
 
   $('[data-behavior="add-block"]').each(function () {
-    $addBlockSelect = $(this);
-    $collectionHolder = $('#' + $addBlockSelect.data('panel-id'));
-
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
-
-    $(document).on('change', $addBlockSelect, function (e) {
+    $(this).on('change', $(this), function (e) {
+      $addBlockSelect = $(this);
+      $collectionHolder = $('#' + $addBlockSelect.data('panel-id'));
+      $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
 
       e.preventDefault();
 
