@@ -3,7 +3,8 @@ $(document).ready(function () {
   $('[data-behavior="add-block"]').each(function () {
     $(this).on('change', $(this), function (e) {
       $addBlockSelect = $(this);
-      $collectionHolder = $('#' + $addBlockSelect.data('panel-id'));
+      let parentId = $addBlockSelect.data('panel-id');
+      $collectionHolder = $('#' + parentId);
       $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
 
       e.preventDefault();
@@ -16,7 +17,7 @@ $(document).ready(function () {
       var index = $collectionHolder.data('index');
 
       // Get the prototype data
-      var proto = $("div[data-type='" + selectedblockType + "']").data('prototype');
+      var proto = $("#" + parentId + ">div[data-type='" + selectedblockType + "']").data('prototype');
 
       if (typeof proto === 'undefined') {
         return;
