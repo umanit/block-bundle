@@ -107,6 +107,15 @@ $builder->add('content', PanelType::class, [
 ]);
 ```
 
+#### Troubleshooting block deletion
+For some unknown reason, blocks are not properly deleted on saving the form, probably because no update is detected. To solve this, you need to create an event on `preUpdate` (in your Sonata Admin for example), to be triggered when you save the form.
+```php 
+public function preUpdate($object)
+    {
+        !$object->getContent() ?: $object->getContent()->updatedTimestamps();
+    }
+```
+
 ### Create a Block entity and its Block Manager
 
 Start by creating your Block entity like the following example:
