@@ -109,6 +109,7 @@ $builder->add('content', PanelType::class, [
 
 #### Troubleshooting block deletion
 Blocks are only removed on the `preUpdate` of the parent entity: if the only modification done on the form is the deletion of a block, the preUpdate event is not triggered, so the block will not be removed. 
+To solve this, you need to create an event on `preUpdate` (in your Sonata Admin for example), to be triggered when you save the form.
 ```php 
 public function preUpdate($object)
     {
