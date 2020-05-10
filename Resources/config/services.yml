@@ -5,14 +5,21 @@ services:
 
     umanit_block.twig.block_extension:
         class: Umanit\BlockBundle\Twig\BlockExtension
-        arguments: ['@umanit_block.resolver.block_manager_resolver', '@logger', '%kernel.debug%']
         tags:
             - { name: twig.extension }
     Umanit\BlockBundle\Twig\BlockExtension: '@umanit_block.twig.block_extension'
 
+    umanit_block.twig.block_runtime:
+        class: Umanit\BlockBundle\Twig\BlockRuntime
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@logger', '%kernel.debug%']
+        tags:
+            - { name: twig.runtime }
+    Umanit\BlockBundle\Twig\BlockRuntime: '@umanit_block.twig.block_runtime'
+
     umanit_block.form.panel_data_transformer:
         class: Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer
         arguments: ['@doctrine.orm.entity_manager']
+    Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer: '@umanit_block.form.panel_data_transformer'
 
     umanit_block.form.panel_type:
         class: Umanit\BlockBundle\Form\PanelType
