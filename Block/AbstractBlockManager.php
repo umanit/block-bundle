@@ -30,10 +30,11 @@ abstract class AbstractBlockManager extends AbstractType
      * This method will be called to render a block entity.
      *
      * @param BlockInterface $block
+     * @param array          $parameters
      *
      * @return string
      */
-    abstract public function render(BlockInterface $block): string;
+    abstract public function render(BlockInterface $block, array $parameters = []): string;
 
     /**
      * Returns the name to use in the Panel form.

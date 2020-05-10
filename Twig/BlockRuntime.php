@@ -6,6 +6,7 @@ namespace Umanit\BlockBundle\Twig;
 
 use Psr\Log\LoggerInterface;
 use Twig\Extension\RuntimeExtensionInterface;
+use Umanit\BlockBundle\Exception\BlockManagerNotFoundException;
 use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
@@ -44,17 +45,18 @@ class BlockRuntime implements RuntimeExtensionInterface
      * Renders a block.
      *
      * @param BlockInterface $block
+     * @param array          $parameters
      *
-     * @return mixed
-     * @throws \Exception
+     * @return string
+     * @throws BlockManagerNotFoundException
      */
-    public function renderBlock(BlockInterface $block)
+    public function renderBlock(BlockInterface $block, array $parameters = []): string
     {
         $blockManager = $this->blockManagerResolver->resolveManager($block);
         $html = '';
 
         try {
-            $html = $blockManager->render($block);
+            $html = $blockManager->render($block, $parameters);
         } catch (\Exception $e) {
             if ($this->debugIsEnabled) {
                 throw $e;
