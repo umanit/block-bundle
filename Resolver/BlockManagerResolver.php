@@ -18,9 +18,16 @@ class BlockManagerResolver
     /** @var AbstractBlockManager[] */
     protected $blockManagers = [];
 
-    public function addBlockManager(AbstractBlockManager $blockManager): void
+    /**
+     * BlockManagerResolver constructor.
+     *
+     * @param iterable $blockManagers
+     */
+    public function __construct(iterable $blockManagers)
     {
-        $this->blockManagers[$blockManager->getManagedBlockType()] = $blockManager;
+        foreach ($blockManagers as $blockManager) {
+            $this->addBlockManager($blockManager);
+        }
     }
 
     /**
@@ -48,5 +55,10 @@ class BlockManagerResolver
     public function getAll(): array
     {
         return $this->blockManagers;
+    }
+
+    private function addBlockManager(AbstractBlockManager $blockManager): void
+    {
+        $this->blockManagers[$blockManager->getManagedBlockType()] = $blockManager;
     }
 }

@@ -5,10 +5,6 @@ declare(strict_types=1);
 namespace Umanit\BlockBundle\Block;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Templating\EngineInterface;
 use Umanit\BlockBundle\Model\BlockInterface;
 
 /**
@@ -16,15 +12,19 @@ use Umanit\BlockBundle\Model\BlockInterface;
  */
 abstract class AbstractBlockManager extends AbstractType
 {
-    /** @var EngineInterface */
-    protected $engine;
-
     /**
      * This method must return the block entity managed by this block manager.
      *
      * @return string
      */
     abstract public function getManagedBlockType(): string;
+
+    /**
+     * This method must return the form typemanaged by this block manager.
+     *
+     * @return string
+     */
+    abstract public function getManagedFormType(): string;
 
     /**
      * This method will be called to render a block entity.
@@ -34,16 +34,6 @@ abstract class AbstractBlockManager extends AbstractType
      * @return string
      */
     abstract public function render(BlockInterface $block): string;
-
-    public function setEngine(EngineInterface $engine): void
-    {
-        $this->engine = $engine;
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder->add('position', HiddenType::class, ['attr' => ['data-target' => 'position']]);
-    }
 
     /**
      * Returns the name to use in the Panel form.
@@ -59,13 +49,5 @@ abstract class AbstractBlockManager extends AbstractType
         );
 
         return trim(implode(' ', $elements));
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'data_class' => $this->getManagedBlockType(),
-            'locale'     => 'en',
-        ]);
     }
 }

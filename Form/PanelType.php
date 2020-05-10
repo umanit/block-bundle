@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umanit\BlockBundle\Block\AbstractBlockManager;
 use Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer;
+use Umanit\BlockBundle\Form\EventSubscriber\AddPanelBlocksPositionFieldSubscriber;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 /**
@@ -94,8 +95,12 @@ class PanelType extends AbstractType
 
             $blocks->add($blockName, CollectionType::class, [
                 'by_reference'   => false,
-                'entry_type'     => \get_class($blockManager),
-                'entry_options'  => ['label' => false, 'locale' => $options['locale']],
+                'entry_type'     => $blockManager->getManagedFormType(),
+                'entry_options'  => [
+                    'label'      => false,
+                    'locale'     => $options['locale'],
+                    'data_class' => $blockManager->getManagedBlockType(),
+                ],
                 'attr'           => [
                     'data-type' => $blockName,
                     'data-name' => $this->translator->trans($blockManager->getPublicName()),
@@ -153,7 +158,7 @@ class PanelType extends AbstractType
      *
      * @param array $options
      *
-     * @return array
+     * @return AbstractBlockManager[]
      * @throws \ReflectionException
      */
     public function getBlockManagers(array $options): array
