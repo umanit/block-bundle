@@ -28,7 +28,7 @@ class Panel
     /**
      * @var ArrayCollection|null
      *
-     * @ORM\ManyToMany(targetEntity="Umanit\BlockBundle\Entity\Block")
+     * @ORM\ManyToMany(targetEntity="Umanit\BlockBundle\Entity\Block", cascade={"persist"})
      * @ORM\JoinTable(
      *      name="umanit_block_panel_blocks",
      *      joinColumns={@ORM\JoinColumn(name="panel_id", referencedColumnName="id")},
