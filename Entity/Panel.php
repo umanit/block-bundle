@@ -3,13 +3,14 @@
 namespace Umanit\BlockBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Umanit\TranslationBundle\Doctrine\Annotation\EmptyOnTranslate;
 
 /**
  * Panel
  *
- * @ORM\Table(name="block__panel")
+ * @ORM\Table(name="umanit_block_panel")
  * @ORM\Entity(repositoryClass="Umanit\BlockBundle\Repository\PanelRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -25,7 +26,15 @@ class Panel
     protected $id;
 
     /**
-     * @var ArrayCollection
+     * @var ArrayCollection|null
+     *
+     * @ORM\ManyToMany(targetEntity="Umanit\BlockBundle\Entity\Block")
+     * @ORM\JoinTable(
+     *      name="umanit_block_panel_blocks",
+     *      joinColumns={@ORM\JoinColumn(name="panel_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="block_id_id", referencedColumnName="id", unique=true)}
+     * )
+     * @ORM\OrderBy({"position": "ASC"})
      * @EmptyOnTranslate()
      */
     protected $blocks;
@@ -44,104 +53,47 @@ class Panel
      */
     protected $updatedAt;
 
+    /**
+     * Panel constructor.
+     */
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
-     * @param int $id
-     *
-     * @return Panel
+     * @ORM\PreUpdate()
      */
-    public function setId($id)
+    public function preUpdate(): void
     {
-        $this->id = $id;
-
-        return $this;
+        $this->updatedAt = new \DateTime();
     }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getBlocks()
+    public function getBlocks(): Collection
     {
         return $this->blocks;
     }
 
-    /**
-     * @param ArrayCollection $blocks
-     *
-     * @return $this
-     */
-    public function setBlocks(ArrayCollection $blocks = null)
+    public function setBlocks(ArrayCollection $blocks = null): Panel
     {
         $this->blocks = $blocks;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedAt()
+    public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
     }
 
-    /**
-     * @param \DateTime $createdAt
-     *
-     * @return Panel
-     */
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
-
-    /**
-     * @param \DateTime $updatedAt
-     *
-     * @return Panel
-     */
-    public function setUpdatedAt(\DateTime $updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function updatedTimestamps()
-    {
-        $this->setUpdatedAt(new \DateTime('now'));
-
-        if ($this->getCreatedAt() === null) {
-            $this->setCreatedAt(new \DateTime('now'));
-        }
-    }
-
 }

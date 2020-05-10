@@ -2,11 +2,11 @@
 
 namespace Umanit\BlockBundle\Model;
 
-use Umanit\BlockBundle\Entity\Panel;
 use Doctrine\ORM\Mapping as ORM;
+use Umanit\BlockBundle\Entity\Panel;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Trait BlockTrait
  */
 trait BlockTrait
 {
@@ -34,64 +34,27 @@ trait BlockTrait
      */
     protected $position;
 
-    /**
-     * @return Panel
-     */
-    public function getPanel()
+    public function getPanel(): Panel
     {
         return $this->panel;
     }
 
-    /**
-     * @param Panel|null $panel
-     *
-     * @return $this
-     */
-    public function setPanel(Panel $panel = null)
+    public function setPanel(Panel $panel = null): void
     {
         $this->panel = $panel;
-
-        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPosition()
+    public function getPosition(): ?int
     {
         return $this->position;
     }
 
-    /**
-     * @param int $position
-     *
-     * @return $this
-     */
-    public function setPosition($position)
+    public function setPosition(int $position): void
     {
         $this->position = $position;
-
-        return $this;
     }
 
-    /**
-     * Set id
-     *
-     * @param int|null $id
-     *
-     * @return $this
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }

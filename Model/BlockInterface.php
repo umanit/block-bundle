@@ -5,48 +5,19 @@ namespace Umanit\BlockBundle\Model;
 use Umanit\BlockBundle\Entity\Panel;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Interface BlockInterface
  */
 interface BlockInterface
 {
-    /**
-     * @return Panel|null
-     */
-    public function getPanel();
+    public function getId(): ?int;
 
-    /**
-     * @param Panel|null $panel
-     *
-     * @return BlockInterface
-     */
-    public function setPanel(Panel $panel = null);
+    public function getPanel(): ?Panel;
 
-    /**
-     * @return int|null
-     */
-    public function getPosition();
+    public function setPanel(Panel $panel = null): void;
 
-    /**
-     * @param int $position
-     *
-     * @return BlockInterface
-     */
-    public function setPosition($position);
+    public function getPosition(): ?int;
 
-    /**
-     * @param int|null $id
-     *
-     * @return $this
-     */
-    public function setId($id);
+    public function setPosition(int $position): void;
 
-    /**
-     * @return int|null
-     */
-    public function getId();
-
-    /**
-     * @return string
-     */
     public function __toString();
 }
