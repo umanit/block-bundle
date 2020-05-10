@@ -7,16 +7,11 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Umanit\BlockBundle\DependencyInjection\Compiler\BlockManagerPass;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Class UmanitBlockBundle
  */
 class UmanitBlockBundle extends Bundle
 {
-    /**
-     * @inheritdoc
-     *
-     * @param ContainerBuilder $container
-     */
-    public function build(ContainerBuilder $container)
+    public function build(ContainerBuilder $container): void
     {
         $container->addCompilerPass(new BlockManagerPass());
     }
