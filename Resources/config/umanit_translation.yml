@@ -1,10 +1,8 @@
 services:
-
     umanit_block.translation_handler.panel_handler:
         class: Umanit\BlockBundle\TranslationHandler\PanelHandler
-        tags:
-            - { name: umanit_translation.translation_handler, priority: 15 }
         arguments:
             - '@umanit_translation.translation.entity_translator'
-            - '@property_accessor'
             - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: umanit_translation.translation_handler, priority: 15 }

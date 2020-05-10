@@ -3,7 +3,6 @@
 namespace Umanit\BlockBundle\TranslationHandler;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Umanit\BlockBundle\Entity\Panel;
 use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\TranslationBundle\Translation\Args\TranslationArgs;
@@ -11,37 +10,26 @@ use Umanit\TranslationBundle\Translation\EntityTranslator;
 use Umanit\TranslationBundle\Translation\Handlers\TranslationHandlerInterface;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Class PanelHandler
  */
 class PanelHandler implements TranslationHandlerInterface
 {
-    /**
-     * @var EntityTranslator
-     */
+    /** @var EntityTranslator */
     private $translator;
 
-    /**
-     * @var PropertyAccessor
-     */
-    private $accessor;
-
-    /**
-     * @var EntityManagerInterface
-     */
+    /** @var EntityManagerInterface */
     private $em;
 
     /**
      * PanelHandler constructor.
      *
      * @param EntityTranslator       $translator
-     * @param PropertyAccessor       $accessor
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityTranslator $translator, PropertyAccessor $accessor, EntityManagerInterface $em)
+    public function __construct(EntityTranslator $translator, EntityManagerInterface $em)
     {
         $this->translator = $translator;
-        $this->accessor   = $accessor;
-        $this->em         = $em;
+        $this->em = $em;
     }
 
     public function supports(TranslationArgs $args): bool
@@ -49,21 +37,36 @@ class PanelHandler implements TranslationHandlerInterface
         return $args->getDataToBeTranslated() instanceof Panel;
     }
 
+    /**
+     * @param TranslationArgs $args
+     *
+     * @return mixed|Panel
+     */
     public function handleSharedAmongstTranslations(TranslationArgs $args)
     {
         // @fixme: should return something else.
         return new Panel();
     }
 
+    /**
+     * @param TranslationArgs $args
+     *
+     * @return mixed|Panel
+     */
     public function handleEmptyOnTranslate(TranslationArgs $args)
     {
         return new Panel();
     }
 
+    /**
+     * @param TranslationArgs $args
+     *
+     * @return mixed|Panel
+     */
     public function translate(TranslationArgs $args)
     {
         /** @var Panel $source */
-        $source      = $args->getDataToBeTranslated();
+        $source = $args->getDataToBeTranslated();
         $translation = clone $source;
 
         // Clone all blocks into new entity
@@ -86,5 +89,4 @@ class PanelHandler implements TranslationHandlerInterface
 
         return $translation;
     }
-
 }
