@@ -10,16 +10,16 @@ services:
             - { name: twig.extension }
     Umanit\BlockBundle\Twig\BlockExtension: '@umanit_block.twig.block_extension'
 
-    umanit_block.event_listener.panel_event_subscriber:
-        class: Umanit\BlockBundle\EventSubscriber\PanelEventSubscriber
-        arguments: ['@umanit_block.resolver.block_manager_resolver']
-        tags:
-            - { name: doctrine.event_subscriber }
-    Umanit\BlockBundle\EventSubscriber\PanelEventSubscriber: '@umanit_block.event_listener.panel_event_subscriber'
+    umanit_block.form.panel_data_transformer:
+        class: Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer
+        arguments: ['@doctrine.orm.entity_manager']
 
     umanit_block.form.panel_type:
         class: Umanit\BlockBundle\Form\PanelType
-        arguments: ['@umanit_block.resolver.block_manager_resolver', '@doctrine.orm.entity_manager', '@translator']
+        arguments:
+            - '@umanit_block.resolver.block_manager_resolver'
+            - '@umanit_block.form.panel_data_transformer'
+            - '@translator'
         tags:
             - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }
     Umanit\BlockBundle\Form\PanelType: '@umanit_block.form.panel_type'
