@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Umanit\BlockBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -13,7 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umanit\BlockBundle\Block\AbstractBlockManager;
-use Umanit\BlockBundle\Form\DataTransformer\BlocksDataTransformer;
 use Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
@@ -82,11 +83,10 @@ class PanelType extends AbstractType
             'placeholder'  => 'Add a new block',
         ]);
 
-        $blocks = $builder
-            ->create('blocks', FormType::class, [
-                'compound' => true,
-                'label'    => false,
-            ]);
+        $blocks = $builder->create('blocks', FormType::class, [
+            'compound' => true,
+            'label'    => false,
+        ]);
 
         // Adds the form associated to block types
         foreach ($blockManagers as $blockManager) {

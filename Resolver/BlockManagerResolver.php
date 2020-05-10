@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Umanit\BlockBundle\Resolver;
 
 use Umanit\BlockBundle\Block\AbstractBlockManager;

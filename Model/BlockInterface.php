@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Umanit\BlockBundle\Model;
 
 use Umanit\BlockBundle\Entity\Panel;
