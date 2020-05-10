@@ -1,27 +1,36 @@
 {
-    "name": "umanit/block-bundle",
-    "description": "Doctrine Block management made easy",
-    "type": "symfony-bundle",
-    "keywords": ["symfony", "doctrine", "block"],
-    "homepage": "https://github.com/umanit/block-bundle",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "UmanIT",
-            "email": "contact@umanit.fr"
-        }
-    ],
-    "require": {
-        "php": ">=5.6",
-        "symfony/framework-bundle": ">=2.3",
-        "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/orm": "^2.5",
-        "umanit/translation-bundle": ">=1.0",
-        "twig/twig": "~2.4"
-    },
-    "minimum-stability": "stable",
-    "target-dir": "Umanit/BlockBundle",
-    "autoload": {
-        "psr-0": { "Umanit\\BlockBundle": "" }
+  "name": "umanit/block-bundle",
+  "description": "Doctrine Block management made easy",
+  "type": "symfony-bundle",
+  "keywords": [
+    "symfony",
+    "doctrine",
+    "block"
+  ],
+  "homepage": "https://github.com/umanit/block-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "UmanIT",
+      "email": "contact@umanit.fr"
     }
+  ],
+  "require": {
+    "php": "^7.1",
+    "symfony/contracts": "^1.1",
+    "symfony/framework-bundle": "^4.4",
+    "symfony/form": "^4.4",
+    "symfony/validator": "^4.4",
+    "doctrine/doctrine-bundle": "^1.6",
+    "doctrine/orm": "^2.5",
+    "umanit/translation-bundle": ">=1.0",
+    "twig/twig": "^2.4",
+    "symfony/templating": "^4.4"
+  },
+  "minimum-stability": "stable",
+  "autoload": {
+    "psr-4": {
+      "Umanit\\BlockBundle\\": ""
+    }
+  }
 }
