@@ -10,13 +10,11 @@ use Symfony\Component\Templating\EngineInterface;
 use Umanit\BlockBundle\Model\BlockInterface;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Class AbstractBlockManager
  */
 abstract class AbstractBlockManager extends AbstractType
 {
-    /**
-     * @var EngineInterface
-     */
+    /** @var EngineInterface */
     protected $engine;
 
     /**
@@ -35,21 +33,12 @@ abstract class AbstractBlockManager extends AbstractType
      */
     abstract public function render(BlockInterface $block): string;
 
-    /**
-     * @param EngineInterface $engine
-     */
-    public function setEngine(EngineInterface $engine)
+    public function setEngine(EngineInterface $engine): void
     {
         $this->engine = $engine;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param FormBuilderInterface $builder
-     * @param array                $options
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('position', HiddenType::class, ['attr' => ['data-target' => 'position']]);
     }
@@ -58,8 +47,9 @@ abstract class AbstractBlockManager extends AbstractType
      * Returns the name to use in the Panel form.
      *
      * @return string
+     * @throws \ReflectionException
      */
-    public function getPublicName()
+    public function getPublicName(): string
     {
         $elements = preg_split(
             "/((?<=[a-z])(?=[A-Z])|(?=[A-Z][a-z]))/",
@@ -69,12 +59,7 @@ abstract class AbstractBlockManager extends AbstractType
         return trim(implode(' ', $elements));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param OptionsResolver $resolver
-     */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => $this->getManagedBlockType(),

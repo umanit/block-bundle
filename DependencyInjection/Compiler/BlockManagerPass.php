@@ -5,10 +5,9 @@ namespace Umanit\BlockBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Class BlockManagerPass
  */
 class BlockManagerPass implements CompilerPassInterface
 {
@@ -17,14 +16,13 @@ class BlockManagerPass implements CompilerPassInterface
      *
      * @param ContainerBuilder $container
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->has('umanit_block.resolver.block_manager_resolver')) {
             return;
         }
 
         $definition = $container->findDefinition('umanit_block.resolver.block_manager_resolver');
-
         $taggedServices = $container->findTaggedServiceIds('umanit_block.manager');
 
         foreach ($taggedServices as $id => $tags) {

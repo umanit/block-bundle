@@ -7,21 +7,16 @@ use Umanit\BlockBundle\Exception\BlockManagerNotFoundException;
 use Umanit\BlockBundle\Model\BlockInterface;
 
 /**
- * Used to resolve which BlockManager is associated to which Block entity.
+ * Class BlockManagerResolver
  *
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Used to resolve which BlockManager is associated to which Block entity.
  */
 class BlockManagerResolver
 {
-    /**
-     * @var AbstractBlockManager[]
-     */
+    /** @var AbstractBlockManager[] */
     protected $blockManagers = [];
 
-    /**
-     * @param AbstractBlockManager $blockManager
-     */
-    public function addBlockManager(AbstractBlockManager $blockManager)
+    public function addBlockManager(AbstractBlockManager $blockManager): void
     {
         $this->blockManagers[$blockManager->getManagedBlockType()] = $blockManager;
     }
@@ -34,10 +29,10 @@ class BlockManagerResolver
      * @return AbstractBlockManager
      * @throws BlockManagerNotFoundException
      */
-    public function resolveManager(BlockInterface $blockEntity)
+    public function resolveManager(BlockInterface $blockEntity): AbstractBlockManager
     {
-        if (isset($this->blockManagers[get_class($blockEntity)])) {
-            return $this->blockManagers[get_class($blockEntity)];
+        if (isset($this->blockManagers[\get_class($blockEntity)])) {
+            return $this->blockManagers[\get_class($blockEntity)];
         }
 
         throw new BlockManagerNotFoundException($blockEntity);
@@ -48,7 +43,7 @@ class BlockManagerResolver
      *
      * @return AbstractBlockManager[]
      */
-    public function getAll()
+    public function getAll(): array
     {
         return $this->blockManagers;
     }

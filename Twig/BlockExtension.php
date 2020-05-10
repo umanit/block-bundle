@@ -3,25 +3,23 @@
 namespace Umanit\BlockBundle\Twig;
 
 use Psr\Log\LoggerInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 /**
- * @author Arthur Guigand <aguigand@umanit.fr>
+ * Class BlockExtension
  */
-class BlockExtension extends \Twig_Extension
+class BlockExtension extends AbstractExtension
 {
-    /**
-     * @var BlockManagerResolver
-     */
+    /** @var BlockManagerResolver */
     private $blockManagerResolver;
-    /**
-     * @var bool
-     */
+
+    /** @var bool */
     private $debugIsEnabled;
-    /**
-     * @var LoggerInterface
-     */
+
+    /** @var LoggerInterface */
     private $logger;
 
     /**
@@ -37,19 +35,14 @@ class BlockExtension extends \Twig_Extension
         $debugIsEnabled = false
     ) {
         $this->blockManagerResolver = $blockManagerResolver;
-        $this->logger               = $logger;
-        $this->debugIsEnabled       = $debugIsEnabled;
+        $this->logger = $logger;
+        $this->debugIsEnabled = $debugIsEnabled;
     }
 
-    /**
-     * @inheritdoc
-     *
-     * @return array
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
-            new \Twig_Function('umanit_block_render', [$this, 'renderBlock'], ['is_safe' => ['html']]),
+            new TwigFunction('umanit_block_render', [$this, 'renderBlock'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -64,14 +57,15 @@ class BlockExtension extends \Twig_Extension
     public function renderBlock(BlockInterface $block)
     {
         $blockManager = $this->blockManagerResolver->resolveManager($block);
-        $html         = '';
+        $html = '';
 
         try {
             $html = $blockManager->render($block);
         } catch (\Exception $e) {
-            if (true === $this->debugIsEnabled) {
+            if ($this->debugIsEnabled) {
                 throw $e;
             }
+
             // If debug is not enabled (prod), silent the exception and log
             $this->logger->critical($e->getMessage());
         }
