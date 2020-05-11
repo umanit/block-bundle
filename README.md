@@ -249,9 +249,6 @@ class TitleAndTextType extends AbstractBlockType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Do not forget to call the parent, it will define the position field
-        parent::buildForm($builder, $options);
-
         $builder
             ->add('title', TextType::class, [
                 'constraints' => [

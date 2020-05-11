@@ -4,26 +4,15 @@ declare(strict_types=1);
 
 namespace Umanit\BlockBundle\Form;
 
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 
 /**
  * Class AbstractBlockType
  */
-abstract class AbstractBlockType extends AbstractType
+class AbstractBlockType extends FormType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function getParent(): string
     {
-        $builder->add('position', HiddenType::class, ['attr' => ['data-target' => 'position']]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
-    {
-        $resolver->setDefaults([
-            'error_bubbling' => false,
-            'locale'         => 'en',
-        ]);
+        return BaseBlockType::class;
     }
 }
