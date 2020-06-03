@@ -11,12 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 method
 - Add a `Block` entity on which all block should rely
 - Add an `AbstractBlockType` form type on which all managers form type should rely
+- Add a new form theme for Sylius
 
 ### Changed
 - Entities table are prefixed with `umanit_`
 - Make the Twig extension lazy loaded
 - A block manager is no longer a subclass of Symfony form `AbstractType` but it should define the form type used to
 manage his block with `getManagedFormType`
+- Move existing form theme and assets in a `sonata` namespace
 
 ### Removed
 - Drop support for PHP < 7.1

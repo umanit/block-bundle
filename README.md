@@ -22,10 +22,16 @@ UmanitBlockBundle intends to solve this problem by giving back their entities to
 
 ## Front requirements
 
+### When using SonataAdmin
+
 * jQuery
 * [jQueryUI sortable](https://jqueryui.com/sortable/)
 * [FontAwesome](https://fontawesome.com/)
 * jQuery [Select2](https://select2.org/) (best have)
+
+### When using Sylius
+
+* Nothing!
 
 ## Install
 
@@ -40,11 +46,26 @@ return [
 ];
 ```
 
-Add CSS and JS in global layout
+Add one of the Twig's form theme
+```yaml
+# config/packages/twig.yaml
+twig:
+    form_themes:
+        # When using SonataAdmin
+        - '@UmanitBlock/sonata/form/panel.html.twig'
+        # When using Sylius
+        - '@UmanitBlock/sylius/form/panel.html.twig'
+```
+
+Add assets in your layout
 
 ```twig
-  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/css/panel.css') }}">
-  <script src="{{ asset('bundles/umanitblock/js/panel.js') }}"></script>
+  <!-- When using SonataAdmin -->
+  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/sonata/panel.css') }}">
+  <script src="{{ asset('bundles/umanitblock/sonata/panel.js') }}" defer="defer"></script>
+
+  <!-- When using Sylius -->
+  <script src="{{ asset('bundles/umanitblock/sylius/panel.js') }}" defer="defer"></script>
 ```
 
 ## Usage
@@ -87,10 +108,6 @@ class Page
 ```
 
 Next, use the provided `PanelType` form to administrate the `Page` content.
-
-The `PanelType` requires jQuery, jQuery UI and jQuery sortable in order to function.
-The markup of the form is based on [AdminLTE](https://adminlte.io/themes/AdminLTE/index2.html).
-The form type integrates natively with SonataAdmin.
 
 ```php
 use Umanit\BlockBundle\Form\PanelType;
@@ -297,7 +314,8 @@ the `BlockManager`.
 
 This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle).
 Once translating a `Panel`, all the `Block` instances and their properties will also be translated.
-If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter to the `PanelType` like so:
+If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter
+to the `PanelType` like so:
 
 ```php
 $builder->add('content', PanelType::class, ['locale' => 'be']);
