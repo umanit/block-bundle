@@ -36,9 +36,6 @@ class UmanitBlockExtension extends Extension implements PrependExtensionInterfac
      */
     public function prepend(ContainerBuilder $container): void
     {
-        // Add form theme
-        $container->prependExtensionConfig('twig', ['form_themes' => ['@UmanitBlock/form/panel.html.twig']]);
-
         $bundles = $container->getParameter('kernel.bundles');
 
         // Conditionally load umanit_translation.yml
