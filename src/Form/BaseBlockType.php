@@ -16,7 +16,12 @@ final class BaseBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('position', HiddenType::class, ['attr' => ['data-target' => 'position']]);
+        $builder->add('position', HiddenType::class, [
+            'attr' => [
+                'data-target' => 'position',
+                'class'       => 'js-panel-position',
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
