@@ -82,8 +82,19 @@ $(document).ready(function () {
     handle: '.ublock-header',
     placeholder: 'ui-state-highlight',
     forcePlaceholderSize: true,
+    start: function (event, ui) {
+      const panel = ui.item.closest('.panel-holder')[0];
+
+      const eventItem = new CustomEvent('ublock.on_sort_start', { detail: { panel } });
+      document.dispatchEvent(eventItem);
+    },
     stop: function (event, ui) {
       var $collectionHolder = ui.item.closest('.panel-holder');
+      const panel = $collectionHolder[0];
+
+      const eventItem = new CustomEvent('ublock.on_sort_end', { detail: { panel } });
+      document.dispatchEvent(eventItem);
+
       resetOrder($collectionHolder);
     },
   });

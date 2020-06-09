@@ -12,6 +12,9 @@ method
 - Add a `Block` entity on which all block should rely
 - Add an `AbstractBlockType` form type on which all managers form type should rely
 - Add a new form theme for Sylius
+- Add new javascripts events
+    * `ublock.on_sort_start` before sorting blocks in a panel
+    * `ublock.on_sort_end` after sorting blocks in a panel
 
 ### Changed
 - Entities table are prefixed with `umanit_`

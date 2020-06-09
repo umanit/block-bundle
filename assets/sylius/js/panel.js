@@ -14,7 +14,14 @@ const initSortable = panel => {
     draggable: '.js-panel-container',
     handle: '.js-panel-sortable-handler',
     animation: 150,
-    onEnd: () => resetOrder(panel),
+    onStart: () => {
+      const eventItem = new CustomEvent('ublock.on_sort_start', { detail: { panel } });
+      document.dispatchEvent(eventItem);
+    },
+    onEnd: () => {
+      const eventItem = new CustomEvent('ublock.on_sort_end', { detail: { panel } });
+      document.dispatchEvent(eventItem);
+    },
   });
 };
 
@@ -127,5 +134,9 @@ window.addEventListener('load', () => {
         fx.slideToggle(itemBody);
       }
     });
+  });
+
+  document.addEventListener('ublock.on_sort_end', ({ detail: { panel } }) => {
+    resetOrder(panel);
   });
 });
