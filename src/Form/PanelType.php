@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Umanit\BlockBundle\Block\AbstractBlockManager;
 use Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer;
-use Umanit\BlockBundle\Form\EventSubscriber\AddPanelBlocksPositionFieldSubscriber;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 /**
