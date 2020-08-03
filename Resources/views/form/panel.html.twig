@@ -18,7 +18,7 @@
       {% set block_type = form.blocks.offsetGet(block_name) %}
 
       {% for block_form_view in block_type %}
-        {% if not block_form_view.rendered and block_form_view.vars.value == block %}
+        {% if not block_form_view.rendered and block_form_view.vars.value is same as(block) %}
           {% set panel_block = block_form_view %}
 
           <div class="ublock ui-sortable-handle"
