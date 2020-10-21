@@ -22,8 +22,10 @@
     "symfony/framework-bundle": "^4.4",
     "symfony/validator": "^4.4",
     "doctrine/doctrine-bundle": "^1.6|^2.1",
-    "doctrine/orm": "^2.5",
-    "umanit/translation-bundle": ">=1.0"
+    "doctrine/orm": "^2.5"
+  },
+  "suggest": {
+    "umanit/translation-bundle": "Allow your panel to be translated."
   },
   "minimum-stability": "stable",
   "autoload": {
