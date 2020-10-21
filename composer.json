@@ -21,7 +21,7 @@
     "symfony/form": "^4.4",
     "symfony/framework-bundle": "^4.4",
     "symfony/validator": "^4.4",
-    "doctrine/doctrine-bundle": "^1.6",
+    "doctrine/doctrine-bundle": "^1.6|^2.1",
     "doctrine/orm": "^2.5",
     "umanit/translation-bundle": ">=1.0"
   },
