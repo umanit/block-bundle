@@ -7,7 +7,6 @@ namespace Umanit\BlockBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Umanit\TranslationBundle\Doctrine\Annotation\EmptyOnTranslate;
 
 /**
  * Panel
@@ -37,7 +36,6 @@ class Panel
      *      inverseJoinColumns={@ORM\JoinColumn(name="block_id_id", referencedColumnName="id", unique=true)}
      * )
      * @ORM\OrderBy({"position": "ASC"})
-     * @EmptyOnTranslate()
      */
     protected $blocks;
 
