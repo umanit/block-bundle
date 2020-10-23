@@ -3,9 +3,11 @@ import '../css/panel.css';
 $(document).ready(function () {
   $('[data-behavior="add-block"]').each(function () {
     $(this).on('change', $(this), function (e) {
-      $addBlockSelect = $(this);
-      let parentId = $addBlockSelect.data('panel-id');
-      $collectionHolder = $('#' + parentId);
+      let
+        $addBlockSelect = $(this),
+        parentId = $addBlockSelect.data('panel-id'),
+        $collectionHolder = $('#' + parentId);
+
       $collectionHolder.data('index', $collectionHolder.find('.ublock').length);
 
       e.preventDefault();
