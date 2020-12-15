@@ -1,0 +1,17 @@
+{
+  "entrypoints": {
+    "sonata/panel": {
+      "css": [
+        "./sonata/panel.css"
+      ],
+      "js": [
+        "./sonata/panel.js"
+      ]
+    },
+    "sylius/panel": {
+      "js": [
+        "./sylius/panel.js"
+      ]
+    }
+  }
+}

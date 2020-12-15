@@ -11,34 +11,61 @@ Doctrine Block managment made easy.
 
 ## Philosophy
 
-Usually when dealing with blocks, developers lose their database consistency because they have to store many block types in a single table.
+Usually when dealing with blocks, developers lose their database consistency because they have to store many block
+types in a single table.
 The most common way of storing many types of blocks in one single table is to store them in a json column.
 
 We think json is bad for database consistency and performances.
-Searching, indexing, managing relations, primary and unique keys... you name it, none of them is possible with json.
+Searching, indexing, managing relations, primary and unique keys... You name it, none of them is possible with json.
 
 UmanitBlockBundle intends to solve this problem by giving back their entities to the developers.
 
 ## Front requirements
+
+### When using SonataAdmin
 
 * jQuery
 * [jQueryUI sortable](https://jqueryui.com/sortable/)
 * [FontAwesome](https://fontawesome.com/)
 * jQuery [Select2](https://select2.org/) (best have)
 
+### When using Sylius
+
+* Nothing!
+
 ## Install
 
-Register the bundle to your 'app/AppKernel.php'
+Register the bundle to your 'config/bundles.php'
 
 ```php
-    new Umanit\BlockBundle\UmanitBlockBundle(),
+<?php
+
+return [
+    // ...
+    Umanit\BlockBundle\UmanitBlockBundle::class => ['all' => true],
+];
 ```
 
-Add CSS and JS in global layout
+Add one of the Twig's form theme
+```yaml
+# config/packages/twig.yaml
+twig:
+    form_themes:
+        # When using SonataAdmin
+        - '@UmanitBlock/sonata/form/panel.html.twig'
+        # When using Sylius
+        - '@UmanitBlock/sylius/form/panel.html.twig'
+```
+
+Add assets in your layout
 
 ```twig
-  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/css/panel.css') }}">
-  <script src="{{ asset('bundles/umanitblock/js/panel.js') }}"></script>
+  <!-- When using SonataAdmin -->
+  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/sonata/panel.css') }}">
+  <script src="{{ asset('bundles/umanitblock/sonata/panel.js') }}" defer="defer"></script>
+
+  <!-- When using Sylius -->
+  <script src="{{ asset('bundles/umanitblock/sylius/panel.js') }}" defer="defer"></script>
 ```
 
 ## Usage
@@ -82,18 +109,15 @@ class Page
 
 Next, use the provided `PanelType` form to administrate the `Page` content.
 
-The `PanelType` requires jQuery, jQuery UI and jQuery sortable in order to function.
-The markup of the form is based on [AdminLTE](https://adminlte.io/themes/AdminLTE/index2.html).
-The form type integrates natively with SonataAdmin.
-
 ```php
 use Umanit\BlockBundle\Form\PanelType;
 
 $builder->add('content', PanelType::class);
 ```
 
-Every block manager is available by default, if you want to filter them, you can give an option `authorized_blocks`, an array of all the block types allowed to be selected,
-or `unauthorized_blocks`, an array of all the block types not allowed to be selected.
+Every block manager is available by default, if you want to filter them, you can give an option `authorized_blocks`, an
+array of all the block types allowed to be selected, or `unauthorized_blocks`, an array of all the block types not
+allowed to be selected.
 
 ```php
 use Umanit\BlockBundle\Form\PanelType;
@@ -107,20 +131,9 @@ $builder->add('content', PanelType::class, [
 ]);
 ```
 
-#### Troubleshooting block deletion
-Blocks are only removed on the `preUpdate` of the parent entity: if the only modification done on the form is the deletion of a block, the preUpdate event is not triggered, so the block will not be removed. 
-
-To solve this, you need to create an event on `preUpdate` (in your Sonata Admin for example), to be triggered when you save the form.
-```php 
-public function preUpdate($object)
-    {
-        !$object->getContent() ?: $object->getContent()->updatedTimestamps();
-    }
-```
-
 ### Create a Block entity and its Block Manager
 
-Start by creating your Block entity like the following example:
+Start by creating your `Block` entity which should extends the bundle `Block` entity, like the following example:
 
 ```php
 <?php
@@ -128,16 +141,13 @@ Start by creating your Block entity like the following example:
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Umanit\BlockBundle\Model\BlockInterface;
-use Umanit\BlockBundle\Model\BlockTrait;
+use Umanit\BlockBundle\Entity\Block;
 
 /**
  * @ORM\Entity()
  */
-class TitleAndText implements BlockInterface
+class TitleAndText extends Block
 {
-    use BlockTrait;
-
     /**
      * @var string
      *
@@ -162,8 +172,9 @@ class TitleAndText implements BlockInterface
         return $this->getTitle() ? : 'New TitleAndText';
     }
 }
+
 ```
-Then, create a `Block Manager` service.
+Then, create a `Block Manager` service and it's `FormType` which should extend `AbstractBlockType`.
 This service will define the form used to administrate your `Block`.
 It will also allow you to define the rendering of the `Block` in the front end.
 
@@ -173,16 +184,29 @@ It will also allow you to define the rendering of the `Block` in the front end.
 namespace AppBundle\BlockManager;
 
 use AppBundle\Entity\TitleAndText;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
+use AppBundle\Form\TitleAndTextType;
 use Umanit\BlockBundle\Block\AbstractBlockManager;
 use Umanit\BlockBundle\Model\BlockInterface;
+use Twig\Environment;
+use \Twig\Error\LoaderError;
+use \Twig\Error\RuntimeError;
+use \Twig\Error\SyntaxError;
 
 class TitleAndTextManager extends AbstractBlockManager
 {
+    /** @var Environment */
+    private $twig;
+
+    /**
+     * QuoteBlockManager constructor.
+     *
+     * @param Environment $twig
+     */
+    public function __construct(Environment $twig)
+    {
+        $this->twig = $twig;
+    }
+
     /**
      * Define which Block type is managed by this Manager
      *
@@ -194,15 +218,54 @@ class TitleAndTextManager extends AbstractBlockManager
     }
 
     /**
+     * This method must return the form typemanaged by this block manager.
+     *
+     * @return string
+     */
+    public function getManagedFormType(): string
+    {
+        return TitleAndTextType::class;
+    }
+
+    /**
+     * Define how the block should be rendered on the front end.
+     *
+     * @param BlockInterface $block
+     * @param array          $parameters
+     *
+     * @return string
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function render(BlockInterface $block, array $parameters = []): string
+    {
+        return $this->twig->render('blocks/title-and-text.html.twig', ['block' => $block]);
+    }
+}
+```
+
+```php
+<?php
+
+namespace AppBundle\Form\TitleAndTextType;
+
+use Umanit\BlockBundle\Form\AbstractBlockType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
+
+class TitleAndTextType extends AbstractBlockType
+{
+    /**
      * Define the form used by the back end to administrate the block.
      *
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
-
         $builder
             ->add('title', TextType::class, [
                 'constraints' => [
@@ -216,27 +279,17 @@ class TitleAndTextManager extends AbstractBlockManager
             ])
         ;
     }
-
-    /**
-     * Define how the block should be rendered on the front end.
-     *
-     * @param BlockInterface $block
-     *
-     * @return string
-     */
-    public function render(BlockInterface $block): string
-    {
-        return $this->engine->render('blocks/title-and-text.html.twig', ['block' => $block]);
-    }
 }
 ```
-Finally, register your `Block Manager` as a service.
+
+Finally, tag your `Block Manager` with `umanit_block.manager`.
 
 ```yaml
-# app/config/services.yml
+# config/services.yml
 services:
     app.block_manager.title_and_text_manager:
         class: AppBundle\BlockManager\TitleAndTextManager
+        arguments: ['@twig']
         tags: ['umanit_block.manager']
 ```
 
@@ -254,11 +307,15 @@ Use the twig function `umanit_block_render` to render each of your blocks.
 
 `umanit_block_render` will find the right `BlockManager` and call its `render` method.
 
+You can pass an array of parameters to `umanit_block_render`. This parameters will be passed to the `render` method of
+the `BlockManager`.
+
 ## Integration with UmanitTranslationBundle
 
 This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle).
 Once translating a `Panel`, all the `Block` instances and their properties will also be translated.
-If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter to the `PanelType` like so:
+If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter
+to the `PanelType` like so:
 
 ```php
 $builder->add('content', PanelType::class, ['locale' => 'be']);

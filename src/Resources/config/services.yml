@@ -1,0 +1,34 @@
+services:
+    umanit_block.resolver.block_manager_resolver:
+        class: Umanit\BlockBundle\Resolver\BlockManagerResolver
+        arguments:
+            - !tagged_iterator umanit_block.manager
+    Umanit\BlockBundle\Resolver\BlockManagerResolver: '@umanit_block.resolver.block_manager_resolver'
+
+    umanit_block.twig.block_extension:
+        class: Umanit\BlockBundle\Twig\BlockExtension
+        tags:
+            - { name: twig.extension }
+    Umanit\BlockBundle\Twig\BlockExtension: '@umanit_block.twig.block_extension'
+
+    umanit_block.twig.block_runtime:
+        class: Umanit\BlockBundle\Twig\BlockRuntime
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@logger', '%kernel.debug%']
+        tags:
+            - { name: twig.runtime }
+    Umanit\BlockBundle\Twig\BlockRuntime: '@umanit_block.twig.block_runtime'
+
+    umanit_block.form.panel_data_transformer:
+        class: Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer
+        arguments: ['@doctrine.orm.entity_manager']
+    Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer: '@umanit_block.form.panel_data_transformer'
+
+    umanit_block.form.panel_type:
+        class: Umanit\BlockBundle\Form\PanelType
+        arguments:
+            - '@umanit_block.resolver.block_manager_resolver'
+            - '@umanit_block.form.panel_data_transformer'
+            - '@translator'
+        tags:
+            - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }
+    Umanit\BlockBundle\Form\PanelType: '@umanit_block.form.panel_type'
