@@ -18,9 +18,9 @@
   "require": {
     "php": "^7.1",
     "symfony/contracts": "^1.1",
-    "symfony/form": "^4.4",
-    "symfony/framework-bundle": "^4.4",
-    "symfony/validator": "^4.4",
+    "symfony/form": "^4.4|^5.2",
+    "symfony/framework-bundle": "^4.4|^5.2",
+    "symfony/validator": "^4.4|^5.2",
     "doctrine/doctrine-bundle": "^1.6|^2.1",
     "doctrine/orm": "^2.5"
   },
