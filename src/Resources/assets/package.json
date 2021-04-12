@@ -1,0 +1,44 @@
+{
+  "name": "@umanit/ux-block-bundle",
+  "description": "Package for umanit/block-bundle",
+  "license": "MIT",
+  "version": "0.0.1",
+  "symfony": {
+    "controllers": {
+      "blocks": {
+        "main": "dist/blocks.js",
+        "webpackMode": "eager",
+        "fetch": "eager",
+        "enabled": true
+      },
+      "item": {
+        "main": "dist/item.js",
+        "webpackMode": "eager",
+        "fetch": "eager",
+        "enabled": true
+      },
+      "sortable": {
+        "main": "dist/sortable.js",
+        "webpackMode": "eager",
+        "fetch": "eager",
+        "enabled": true
+      }
+    }
+  },
+  "scripts": {
+    "build": "babel src -d dist"
+  },
+  "peerDependencies": {
+    "stimulus": "^2.0.0"
+  },
+  "dependencies": {
+    "sortablejs": "^1.10.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.7",
+    "stimulus": "^2.0.0"
+  }
+}

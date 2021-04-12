@@ -1,9 +1,9 @@
 {% macro panel_block_item(context) %}
-  <div
-      class="js-panel-container"
-      data-block-type="{{ context.type }}"
-      data-name="{{ context.name }}"
-      data-order="{{ context.position }}"
+  <div data-block-type="{{ context.type }}"
+       data-name="{{ context.name }}"
+          {{ stimulus_controller('umanit/ux-block-bundle/item', {
+            removeBlock: 'You\'re about to remove this block, confirm?'|trans
+          }) }}
   >
     <div class="content">
       <div class="ui top attached header js-panel-header">
@@ -16,11 +16,11 @@
             <span class="ui label {{ context.state_class|default('') }}" {{ (context.state_attr|default(''))|raw }}>
               {{ context.name }}
             </span>
-            <button type="button" class="mini ui red icon button js-panel-remove">
+            <button type="button" class="mini ui red icon button" data-action="click->umanit--ux-block-bundle--item#remove">
               <i class="trash alternate icon"></i>
             </button>
-            <button type="button" class="mini ui icon button js-panel-toggle">
-              <i class="caret right icon"></i>
+            <button type="button" class="mini ui icon button" data-action="click->umanit--ux-block-bundle--item#toggle">
+              <i class="caret {{ context.open|default(false) ? 'down' : 'right' }} icon"></i>
             </button>
             <button type="button" class="mini ui icon button js-panel-sortable-handler">
               <i class="sort icon"></i>
@@ -28,7 +28,9 @@
           </div>
         </div>
       </div>
-      <div class="ui attached segment js-panel-body" {{ (context.body_attr|default(''))|raw }}>{{ context.body|raw }}</div>
+      <div class="ui attached segment" data-umanit--ux-block-bundle--item-target="content" {{ (context.body_attr|default(''))|raw }}>
+        {{ context.body|raw }}
+      </div>
     </div>
 
     <div class="ui divider"></div>
@@ -36,57 +38,58 @@
 {% endmacro panel_block_item %}
 
 {% block panel_widget %}
-  <div
-      id="{{ form.vars.id }}" class="js-panel-holder"
-      data-str-new-block="{{ 'New'|trans }}"
-      data-str-remove-block="{{ 'You\'re about to remove this block, confirm?'|trans }}"
-      data-block-item-prototype="{{ _self.panel_block_item({
-        type: '__type__',
-        name: '__name__',
-        state_class: '__state_class__',
-        state_attr: 'title="' ~ 'This block has not been saved'|trans ~ '"',
-        position: '__position__',
-        header: '__header__',
-        body_attr: '__body_attr__',
-        body: '__body__'
-      })|e('html_attr') }}"
-  >
-    {# protos #}
-    {% for block_name, block_view in form.blocks %}
-      <div
-          data-block-type="{{ block_name }}"
-          data-block-name="{{ block_name }}"
-          data-block-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
-      </div>
-    {% endfor %}
-
-    {% for item in form.vars.ordered_blocks %}
-      {% set block_name = item.type %}
-      {% set block = item.content %}
-      {% set block_type = form.blocks.offsetGet(block_name) %}
-
-      {% for block_form_view in block_type %}
-        {% if not block_form_view.rendered and block_form_view.vars.value is same as(block) %}
-          {% set panel_block = block_form_view %}
-
-          {{ _self.panel_block_item({
-            type: block_name,
-            name: item.name,
-            state_class: block.id ? 'blue' : 'yellow',
-            state_attr: not block.id ? 'title="' ~ 'This block has not been saved'|trans ~ '"',
-            position: panel_block.vars.value.position,
-            header: block,
-            body_attr: panel_block.vars.valid ? 'style="display:none;"'|raw,
-            body: form_row(panel_block)
-          }) }}
-        {% endif %}
+  <div {{ stimulus_controller('umanit/ux-block-bundle/blocks', { newBlock: 'New'|trans }) }}>
+    <div data-umanit--ux-block-bundle--blocks-target="panel"
+         id="{{ form.vars.id }}"
+         data-block-item-prototype="{{ _self.panel_block_item({
+           open: true,
+           type: '__type__',
+           name: '__name__',
+           state_class: '__state_class__',
+           state_attr: 'title="' ~ 'This block has not been saved'|trans ~ '"',
+           position: '__position__',
+           header: '__header__',
+           body_attr: '__body_attr__',
+           body: '__body__',
+         })|e('html_attr') }}"
+            {{ stimulus_controller('umanit/ux-block-bundle/sortable') }}
+    >
+      {# protos #}
+      {% for block_name, block_view in form.blocks %}
+        <div data-umanit--ux-block-bundle--blocks-target="prototype"
+             data-block-type="{{ block_name }}"
+             data-block-name="{{ block_name }}"
+             data-block-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
+        </div>
       {% endfor %}
-    {% endfor %}
-  </div>
 
-  {{ form_row(form.block_select_type, { attr: {
-    class: 'js-panel-add-block',
-    'data-behavior': 'add-block',
-    'data-panel-id': form.vars.id,
-  }}) }}
+      {% for item in form.vars.ordered_blocks %}
+        {% set block_name = item.type %}
+        {% set block = item.content %}
+        {% set block_type = form.blocks.offsetGet(block_name) %}
+
+        {% for block_form_view in block_type %}
+          {% if not block_form_view.rendered and block_form_view.vars.value is same as(block) %}
+            {% set panel_block = block_form_view %}
+
+            {{ _self.panel_block_item({
+              type: block_name,
+              name: item.name,
+              state_class: block.id ? 'blue' : 'yellow',
+              state_attr: not block.id ? 'title="' ~ 'This block has not been saved'|trans ~ '"',
+              position: panel_block.vars.value.position,
+              header: block,
+              body_attr: panel_block.vars.valid ? 'style="display:none;"'|raw,
+              body: form_row(panel_block)
+            }) }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    {{ form_row(form.block_select_type, { attr: {
+      'data-action': 'change->umanit--ux-block-bundle--blocks#add',
+      'data-umanit--ux-block-bundle--blocks-target': 'select'
+    } }) }}
+  </div>
 {% endblock panel_widget %}

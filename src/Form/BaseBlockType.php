@@ -9,17 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class BaseBlockType
- */
 final class BaseBlockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('position', HiddenType::class, [
             'attr' => [
-                'data-target' => 'position',
-                'class'       => 'js-panel-position',
+                'data-umanit--ux-block-bundle--blocks-target' => 'position',
             ],
         ]);
     }

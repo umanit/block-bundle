@@ -1,5 +1,0 @@
-{
-  "bundles/umanitblock/sonata/panel.css": "./sonata/panel.css",
-  "bundles/umanitblock/sonata/panel.js": "./sonata/panel.js",
-  "bundles/umanitblock/sylius/panel.js": "./sylius/panel.js"
-}
