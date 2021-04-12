@@ -11,31 +11,22 @@ Doctrine Block managment made easy.
 
 ## Philosophy
 
-Usually when dealing with blocks, developers lose their database consistency because they have to store many block
-types in a single table.
-The most common way of storing many types of blocks in one single table is to store them in a json column.
+Usually when dealing with blocks, developers lose their database consistency because they have to store many block types
+in a single table. The most common way of storing many types of blocks in one single table is to store them in a json
+column.
 
-We think json is bad for database consistency and performances.
-Searching, indexing, managing relations, primary and unique keys... You name it, none of them is possible with json.
+We think json is bad for database consistency and performances. Searching, indexing, managing relations, primary and
+unique keys... You name it, none of them is possible with json.
 
 UmanitBlockBundle intends to solve this problem by giving back their entities to the developers.
 
 ## Front requirements
 
-### When using SonataAdmin
-
-* jQuery
-* [jQueryUI sortable](https://jqueryui.com/sortable/)
-* [FontAwesome](https://fontawesome.com/)
-* jQuery [Select2](https://select2.org/) (best have)
-
-### When using Sylius
-
-* Nothing!
+* Use [Symfony UX](https://symfony.com/ux)
 
 ## Install
 
-Register the bundle to your 'config/bundles.php'
+Register the bundle to your `config/bundles.php`
 
 ```php
 <?php
@@ -47,25 +38,57 @@ return [
 ```
 
 Add one of the Twig's form theme
+
 ```yaml
 # config/packages/twig.yaml
 twig:
     form_themes:
-        # When using SonataAdmin
-        - '@UmanitBlock/sonata/form/panel.html.twig'
-        # When using Sylius
+        # When using Sylius, the only available for the moment
         - '@UmanitBlock/sylius/form/panel.html.twig'
 ```
 
-Add assets in your layout
+Add `@umanit/ux-block-bundle` dev-dependency in your `package.json`
 
-```twig
-  <!-- When using SonataAdmin -->
-  <link rel="stylesheet" href="{{ asset('bundles/umanitblock/sonata/panel.css') }}">
-  <script src="{{ asset('bundles/umanitblock/sonata/panel.js') }}" defer="defer"></script>
+```json
+{
+  //...
+  "devDependencies": {
+    // ...
+    "@umanit/ux-block-bundle": "file:vendor/umanit/block-bundle/src/Resources/assets"
+  }
+}
+```
 
-  <!-- When using Sylius -->
-  <script src="{{ asset('bundles/umanitblock/sylius/panel.js') }}" defer="defer"></script>
+Add stimulus controllers to your `assets/controllers.json`
+
+```json
+{
+  "controllers": {
+    // ...
+    "@umanit/ux-block-bundle": {
+      "blocks": {
+        "enabled": true,
+        "fetch": "lazy"
+      },
+      "item": {
+        "enabled": true,
+        "fetch": "lazy"
+      },
+      "sortable": {
+        "enabled": true,
+        "fetch": "lazy"
+      }
+    }
+  }
+  // ...
+}
+```
+
+Don't forget to install the JavaScript dependencies as well and compile
+
+```
+yarn install --force
+yarn encore dev
 ```
 
 ## Usage
@@ -174,9 +197,10 @@ class TitleAndText extends Block
 }
 
 ```
-Then, create a `Block Manager` service and it's `FormType` which should extend `AbstractBlockType`.
-This service will define the form used to administrate your `Block`.
-It will also allow you to define the rendering of the `Block` in the front end.
+
+Then, create a `Block Manager` service and it's `FormType` which should extend `AbstractBlockType`. This service will
+define the form used to administrate your `Block`. It will also allow you to define the rendering of the `Block` in the
+front end.
 
 ```php
 <?php
@@ -312,10 +336,10 @@ the `BlockManager`.
 
 ## Integration with UmanitTranslationBundle
 
-This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle).
-Once translating a `Panel`, all the `Block` instances and their properties will also be translated.
-If you need a locale parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter
-to the `PanelType` like so:
+This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle). Once
+translating a `Panel`, all the `Block` instances and their properties will also be translated. If you need a locale
+parameter in you `BlockManager` form (to filter an `EntityType` for example), pass the parameter to the `PanelType` like
+so:
 
 ```php
 $builder->add('content', PanelType::class, ['locale' => 'be']);
