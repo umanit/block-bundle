@@ -32,13 +32,15 @@
     "stimulus": "^2.0.0"
   },
   "dependencies": {
-    "sortablejs": "^1.10.2"
+    "sortablejs": "^1.10.2",
+    "stimulus-use": "^0.23.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
+    "core-js": "^3.0.0",
     "stimulus": "^2.0.0"
   }
 }
