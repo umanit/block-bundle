@@ -5,6 +5,7 @@
  */
 
 import { Controller } from 'stimulus';
+import { useDispatch } from 'stimulus-use';
 import Sortable from 'sortablejs';
 
 /* stimulusFetch: 'lazy' */
@@ -20,6 +21,8 @@ export default class extends Controller {
   }
 
   connect() {
+    useDispatch(this);
+
     this.sortable = new Sortable(this.element, {
       ...this.defaultOptions,
       ...this.options,
@@ -32,15 +35,15 @@ export default class extends Controller {
   }
 
   start() {
-    const panel = this.element;
-    const eventItem = new CustomEvent('umanit-block-bundle.onSortStart', { detail: { panel } });
-    document.dispatchEvent(eventItem);
+    this.dispatch('start', {
+      panel: this.element,
+    });
   }
 
   end() {
-    const panel = this.element;
-    const eventItem = new CustomEvent('umanit-block-bundle.onSortEnd', { detail: { panel } });
-    document.dispatchEvent(eventItem);
+    this.dispatch('end', {
+      panel: this.element,
+    });
   }
 
   get options() {

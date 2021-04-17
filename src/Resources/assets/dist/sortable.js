@@ -9,6 +9,8 @@ exports["default"] = void 0;
 
 var _stimulus = require("stimulus");
 
+var _stimulusUse = require("stimulus-use");
+
 var _sortablejs = _interopRequireDefault(require("sortablejs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -60,6 +62,7 @@ var _default = /*#__PURE__*/function (_Controller) {
   }, {
     key: "connect",
     value: function connect() {
+      (0, _stimulusUse.useDispatch)(this);
       this.sortable = new _sortablejs["default"](this.element, _objectSpread(_objectSpread({}, this.defaultOptions), this.options));
     }
   }, {
@@ -71,24 +74,16 @@ var _default = /*#__PURE__*/function (_Controller) {
   }, {
     key: "start",
     value: function start() {
-      var panel = this.element;
-      var eventItem = new CustomEvent('umanit-block-bundle.onSortStart', {
-        detail: {
-          panel: panel
-        }
+      this.dispatch('start', {
+        panel: this.element
       });
-      document.dispatchEvent(eventItem);
     }
   }, {
     key: "end",
     value: function end() {
-      var panel = this.element;
-      var eventItem = new CustomEvent('umanit-block-bundle.onSortEnd', {
-        detail: {
-          panel: panel
-        }
+      this.dispatch('end', {
+        panel: this.element
       });
-      document.dispatchEvent(eventItem);
     }
   }, {
     key: "options",
