@@ -1,0 +1,4 @@
+block:
+    new: 'New'
+    confirm_remove_block: 'You''re about to remove this block, confirm?'
+    not_saved: 'This block has not been saved'

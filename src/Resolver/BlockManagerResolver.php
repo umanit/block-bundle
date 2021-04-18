@@ -18,11 +18,6 @@ class BlockManagerResolver
     /** @var AbstractBlockManager[] */
     protected $blockManagers = [];
 
-    /**
-     * BlockManagerResolver constructor.
-     *
-     * @param iterable $blockManagers
-     */
     public function __construct(iterable $blockManagers)
     {
         foreach ($blockManagers as $blockManager) {

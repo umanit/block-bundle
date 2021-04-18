@@ -9,8 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Panel
- *
  * @ORM\Table(name="umanit_block_panel")
  * @ORM\Entity(repositoryClass="Umanit\BlockBundle\Repository\PanelRepository")
  * @ORM\HasLifecycleCallbacks

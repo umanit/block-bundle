@@ -7,9 +7,6 @@ namespace Umanit\BlockBundle\Block;
 use Symfony\Component\Form\AbstractType;
 use Umanit\BlockBundle\Model\BlockInterface;
 
-/**
- * Class AbstractBlockManager
- */
 abstract class AbstractBlockManager extends AbstractType
 {
     /**

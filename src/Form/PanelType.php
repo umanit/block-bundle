@@ -18,9 +18,6 @@ use Umanit\BlockBundle\Block\AbstractBlockManager;
 use Umanit\BlockBundle\Form\DataTransformer\PanelDataTransformer;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
-/**
- * Class PanelType
- */
 class PanelType extends AbstractType
 {
     /** @var BlockManagerResolver */
@@ -32,13 +29,6 @@ class PanelType extends AbstractType
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * PanelType constructor.
-     *
-     * @param BlockManagerResolver $blockManagerResolver
-     * @param PanelDataTransformer $panelDataTransformer
-     * @param TranslatorInterface  $translator
-     */
     public function __construct(
         BlockManagerResolver $blockManagerResolver,
         PanelDataTransformer $panelDataTransformer,
@@ -49,11 +39,6 @@ class PanelType extends AbstractType
         $this->translator = $translator;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \ReflectionException
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         // Filter blocks available
@@ -65,7 +50,7 @@ class PanelType extends AbstractType
             'choices'      => $blockManagers,
             'label'        => false,
             'choice_label' => function (AbstractBlockManager $value) {
-                return $this->translator->trans($value->getPublicName());
+                return $this->translator->trans($value->getPublicName(), [], 'UmanitBlockBundle');
             },
             'choice_value' => static function ($value) {
                 return null === $value ? '' : (new \ReflectionClass($value->getManagedBlockType()))->getShortName();
@@ -76,7 +61,7 @@ class PanelType extends AbstractType
             'choice_attr'  => function (AbstractBlockManager $value) {
                 return [
                     'data-target' => 'type-'.(new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
-                    'data-name'   => $this->translator->trans($value->getPublicName()),
+                    'data-name'   => $this->translator->trans($value->getPublicName(), [], 'UmanitBlockBundle'),
                 ];
             },
             'required'     => false,
@@ -102,7 +87,7 @@ class PanelType extends AbstractType
                 ],
                 'attr'           => [
                     'data-type' => $blockName,
-                    'data-name' => $this->translator->trans($blockManager->getPublicName()),
+                    'data-name' => $this->translator->trans($blockManager->getPublicName(), [], 'UmanitBlockBundle'),
                 ],
                 'label'          => false,
                 'allow_add'      => true,
@@ -116,11 +101,6 @@ class PanelType extends AbstractType
         $builder->addModelTransformer($this->panelDataTransformer);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \ReflectionException
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['ordered_blocks'] = [];
@@ -134,7 +114,7 @@ class PanelType extends AbstractType
                     }
 
                     $view->vars['ordered_blocks'][] = [
-                        'name'    => $this->translator->trans($blockManager->getPublicName()),
+                        'name'    => $this->translator->trans($blockManager->getPublicName(), [], 'UmanitBlockBundle'),
                         'type'    => (new \ReflectionClass($block))->getShortName(),
                         'content' => $block,
                     ];
@@ -178,7 +158,7 @@ class PanelType extends AbstractType
                 continue;
             }
 
-            $blockManagers[$this->translator->trans($blockManager->getPublicName())] = $blockManager;
+            $blockManagers[$this->translator->trans($blockManager->getPublicName(), [], 'UmanitBlockBundle')] = $blockManager;
         }
 
         ksort($blockManagers);

@@ -10,29 +10,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Umanit\BlockBundle\Entity\Panel;
 
-/**
- * Class PanelDataTransformer
- */
 class PanelDataTransformer implements DataTransformerInterface
 {
     /** @var EntityManagerInterface */
     private $em;
 
-    /**
-     * PanelDataTransformer constructor.
-     *
-     * @param EntityManagerInterface $em
-     */
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws \ReflectionException
-     */
     public function transform($value): ?array
     {
         if (!$value instanceof Panel) {

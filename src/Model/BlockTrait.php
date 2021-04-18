@@ -7,9 +7,6 @@ namespace Umanit\BlockBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Umanit\BlockBundle\Entity\Panel;
 
-/**
- * Trait BlockTrait
- */
 trait BlockTrait
 {
     /**
@@ -60,5 +57,4 @@ trait BlockTrait
     {
         return $this->id;
     }
-
 }

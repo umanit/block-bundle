@@ -7,9 +7,6 @@ namespace Umanit\BlockBundle\Twig;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-/**
- * Class BlockExtension
- */
 class BlockExtension extends AbstractExtension
 {
     public function getFunctions(): array

@@ -10,9 +10,6 @@ use Umanit\BlockBundle\Exception\BlockManagerNotFoundException;
 use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
-/**
- * Class BlockRuntime
- */
 class BlockRuntime implements RuntimeExtensionInterface
 {
     /** @var BlockManagerResolver */
@@ -24,13 +21,6 @@ class BlockRuntime implements RuntimeExtensionInterface
     /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * BlockExtension constructor.
-     *
-     * @param BlockManagerResolver $blockManagerResolver
-     * @param bool                 $debugIsEnabled
-     * @param LoggerInterface      $logger
-     */
     public function __construct(
         BlockManagerResolver $blockManagerResolver,
         LoggerInterface $logger,

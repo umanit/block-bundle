@@ -1,8 +1,10 @@
+{% trans_default_domain 'UmanitBlockBundle' %}
+
 {% macro panel_block_item(context) %}
   <div data-block-type="{{ context.type }}"
        data-name="{{ context.name }}"
           {{ stimulus_controller('umanit/ux-block-bundle/item', {
-            removeBlock: 'You\'re about to remove this block, confirm?'|trans
+            removeBlock: 'block.confirm_remove_block'|trans
           }) }}
   >
     <div class="content">
@@ -38,7 +40,7 @@
 {% endmacro panel_block_item %}
 
 {% block panel_widget %}
-  <div {{ stimulus_controller('umanit/ux-block-bundle/blocks', { newBlock: 'New'|trans }) }}>
+  <div {{ stimulus_controller('umanit/ux-block-bundle/blocks', { newBlock: 'block.new'|trans }) }}>
     <div data-umanit--ux-block-bundle--blocks-target="panel"
          id="{{ form.vars.id }}"
          data-block-item-prototype="{{ _self.panel_block_item({
@@ -46,7 +48,7 @@
            type: '__type__',
            name: '__name__',
            state_class: '__state_class__',
-           state_attr: 'title="' ~ 'This block has not been saved'|trans ~ '"',
+           state_attr: 'title="' ~ 'block.not_saved'|trans ~ '"',
            position: '__position__',
            header: '__header__',
            body_attr: '__body_attr__',
@@ -76,7 +78,7 @@
               type: block_name,
               name: item.name,
               state_class: block.id ? 'blue' : 'yellow',
-              state_attr: not block.id ? 'title="' ~ 'This block has not been saved'|trans ~ '"',
+              state_attr: not block.id ? 'title="' ~ 'block.not_saved'|trans ~ '"',
               position: panel_block.vars.value.position,
               header: block,
               body_attr: panel_block.vars.valid ? 'style="display:none;"'|raw,

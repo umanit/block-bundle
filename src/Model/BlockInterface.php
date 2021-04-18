@@ -6,9 +6,6 @@ namespace Umanit\BlockBundle\Model;
 
 use Umanit\BlockBundle\Entity\Panel;
 
-/**
- * Interface BlockInterface
- */
 interface BlockInterface
 {
     public function getId(): ?int;
