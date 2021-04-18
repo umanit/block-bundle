@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus';
+import { useDispatch } from 'stimulus-use';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -47,13 +48,10 @@ export default class extends Controller {
     const insertedItem = this.panelTarget.lastElementChild;
 
     // Add custom javascript event on the new panel
-    const eventItem = new CustomEvent('umanit-block-bundle.afterAdded', {
-      detail: {
-        panel: this.panelTarget,
-        item: insertedItem,
-      },
+    this.dispatch('after-add', {
+      panel: this.panelTarget,
+      item: insertedItem,
     });
-    document.dispatchEvent(eventItem);
 
     // Scroll to newly created block
     insertedItem.scrollIntoView({ behavior: 'smooth', block: 'start' });
