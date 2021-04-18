@@ -1,5 +1,5 @@
-UPGRADE FROM 2.0 to 3.0
-=======================
+UPGRADE FROM 2.0.x to 3.0.x
+===========================
 
 Assets
 ------
@@ -13,3 +13,10 @@ Twig views
 
 * If you were using the view `src/Resources/views/sonata/form/panel.html.twig`, it's gone because to obsolete. Feel free
   to open an PR to submit a new one!
+* If you have overrided the view `src/Resources/views/sylius/form/panel.html.twig`, you must update it to use stimulus
+  markup (controllers, targets).
+
+Translations
+------------
+
+Translations are now using a custom domain `UmanitBlockBundle`.
