@@ -54,6 +54,7 @@ var _default = /*#__PURE__*/function (_Controller) {
   _createClass(_default, [{
     key: "connect",
     value: function connect() {
+      (0, _stimulusUse.useDispatch)(this);
       this.indexValue = this.positionTargets.length;
       this.computeOrderOnSubmit();
     }
