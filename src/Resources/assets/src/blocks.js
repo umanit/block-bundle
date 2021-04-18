@@ -10,6 +10,8 @@ export default class extends Controller {
   };
 
   connect() {
+    useDispatch(this);
+
     this.indexValue = this.positionTargets.length;
 
     this.computeOrderOnSubmit();
