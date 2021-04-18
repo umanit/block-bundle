@@ -52,7 +52,7 @@
            body_attr: '__body_attr__',
            body: '__body__',
          })|e('html_attr') }}"
-            {{ stimulus_controller('umanit/ux-block-bundle/sortable') }}
+            {{ stimulus_controller('umanit/ux-block-bundle/sortable', { handle: '.js-panel-sortable-handler'}) }}
     >
       {# protos #}
       {% for block_name, block_view in form.blocks %}

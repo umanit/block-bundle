@@ -98,9 +98,7 @@ var _default = /*#__PURE__*/function (_Controller) {
   }, {
     key: "defaultOptions",
     get: function get() {
-      return {
-        handle: '.js-panel-sortable-handler'
-      };
+      return {};
     }
   }]);
 

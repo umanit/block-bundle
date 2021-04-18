@@ -56,8 +56,6 @@ export default class extends Controller {
   }
 
   get defaultOptions() {
-    return {
-      handle: '.js-panel-sortable-handler',
-    };
+    return {};
   }
 }
