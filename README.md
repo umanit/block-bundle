@@ -54,7 +54,7 @@ Add `@umanit/ux-block-bundle` dev-dependency in your `package.json`
   //...
   "devDependencies": {
     // ...
-    "@umanit/ux-block-bundle": "file:vendor/umanit/block-bundle/src/Resources/assets"
+    "@umanit/ux-block-bundle": "file:vendor/umanit/block-bundle/Resources/assets"
   }
 }
 ```
