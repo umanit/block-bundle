@@ -7,20 +7,17 @@
     "controllers": {
       "blocks": {
         "main": "dist/blocks.js",
-        "webpackMode": "eager",
-        "fetch": "eager",
+        "fetch": "lazy",
         "enabled": true
       },
       "item": {
         "main": "dist/item.js",
-        "webpackMode": "eager",
-        "fetch": "eager",
+        "fetch": "lazy",
         "enabled": true
       },
       "sortable": {
         "main": "dist/sortable.js",
-        "webpackMode": "eager",
-        "fetch": "eager",
+        "fetch": "lazy",
         "enabled": true
       }
     }
