@@ -3,7 +3,7 @@
 {% macro panel_block_item(context) %}
   <div data-block-type="{{ context.type }}"
        data-name="{{ context.name }}"
-          {{ stimulus_controller('umanit/ux-block-bundle/item', {
+          {{ stimulus_controller('umanit/block-bundle/item', {
             removeBlock: 'block.confirm_remove_block'|trans
           }) }}
   >
@@ -18,10 +18,10 @@
             <span class="ui label {{ context.state_class|default('') }}" {{ (context.state_attr|default(''))|raw }}>
               {{ context.name }}
             </span>
-            <button type="button" class="mini ui red icon button" data-action="click->umanit--ux-block-bundle--item#remove">
+            <button type="button" class="mini ui red icon button" data-action="click->umanit--block-bundle--item#remove">
               <i class="trash alternate icon"></i>
             </button>
-            <button type="button" class="mini ui icon button" data-action="click->umanit--ux-block-bundle--item#toggle">
+            <button type="button" class="mini ui icon button" data-action="click->umanit--block-bundle--item#toggle">
               <i class="caret {{ context.open|default(false) ? 'down' : 'right' }} icon"></i>
             </button>
             <button type="button" class="mini ui icon button js-panel-sortable-handler">
@@ -30,7 +30,7 @@
           </div>
         </div>
       </div>
-      <div class="ui attached segment" data-umanit--ux-block-bundle--item-target="content" {{ (context.body_attr|default(''))|raw }}>
+      <div class="ui attached segment" data-umanit--block-bundle--item-target="content" {{ (context.body_attr|default(''))|raw }}>
         {{ context.body|raw }}
       </div>
     </div>
@@ -40,8 +40,8 @@
 {% endmacro panel_block_item %}
 
 {% block panel_widget %}
-  <div {{ stimulus_controller('umanit/ux-block-bundle/blocks', { newBlock: 'block.new'|trans }) }}>
-    <div data-umanit--ux-block-bundle--blocks-target="panel"
+  <div {{ stimulus_controller('umanit/block-bundle/blocks', { newBlock: 'block.new'|trans }) }}>
+    <div data-umanit--block-bundle--blocks-target="panel"
          id="{{ form.vars.id }}"
          data-block-item-prototype="{{ _self.panel_block_item({
            open: true,
@@ -54,11 +54,11 @@
            body_attr: '__body_attr__',
            body: '__body__',
          })|e('html_attr') }}"
-            {{ stimulus_controller('umanit/ux-block-bundle/sortable', { handle: '.js-panel-sortable-handler'}) }}
+            {{ stimulus_controller('umanit/block-bundle/sortable', { handle: '.js-panel-sortable-handler'}) }}
     >
       {# protos #}
       {% for block_name, block_view in form.blocks %}
-        <div data-umanit--ux-block-bundle--blocks-target="prototype"
+        <div data-umanit--block-bundle--blocks-target="prototype"
              data-block-type="{{ block_name }}"
              data-block-name="{{ block_name }}"
              data-block-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
@@ -90,8 +90,8 @@
     </div>
 
     {{ form_row(form.block_select_type, { attr: {
-      'data-action': 'change->umanit--ux-block-bundle--blocks#add',
-      'data-umanit--ux-block-bundle--blocks-target': 'select'
+      'data-action': 'change->umanit--block-bundle--blocks#add',
+      'data-umanit--block-bundle--blocks-target': 'select'
     } }) }}
   </div>
 {% endblock panel_widget %}

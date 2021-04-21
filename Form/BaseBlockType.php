@@ -15,7 +15,7 @@ final class BaseBlockType extends AbstractType
     {
         $builder->add('position', HiddenType::class, [
             'attr' => [
-                'data-umanit--ux-block-bundle--blocks-target' => 'position',
+                'data-umanit--block-bundle--blocks-target' => 'position',
             ],
         ]);
     }

@@ -47,14 +47,14 @@ twig:
         - '@UmanitBlock/sylius/form/panel.html.twig'
 ```
 
-Add `@umanit/ux-block-bundle` dev-dependency in your `package.json`
+Add `@umanit/block-bundle` dev-dependency in your `package.json`
 
 ```json
 {
   //...
   "devDependencies": {
     // ...
-    "@umanit/ux-block-bundle": "file:vendor/umanit/block-bundle/Resources/assets"
+    "@umanit/block-bundle": "file:vendor/umanit/block-bundle/Resources/assets"
   }
 }
 ```
@@ -65,7 +65,7 @@ Add stimulus controllers to your `assets/controllers.json`
 {
   "controllers": {
     // ...
-    "@umanit/ux-block-bundle": {
+    "@umanit/block-bundle": {
       "blocks": {
         "enabled": true,
         "fetch": "lazy"
