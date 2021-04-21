@@ -2,7 +2,7 @@
   "private": true,
   "author": "UmanIT <contact@umanit.fr>",
   "workspaces": [
-    "src/Resources/assets"
+    "Resources/assets"
   ],
   "scripts": {
     "build": "yarn workspaces run build"
