@@ -67,7 +67,7 @@ export default class extends Controller {
     e.currentTarget.value = '';
   }
 
-  computeOrderOnSubmit(e) {
+  computeOrderOnSubmit() {
     let i = 0;
 
     for (const position of this.positionTargets) {
