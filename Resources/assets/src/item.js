@@ -1,7 +1,6 @@
 import { Controller } from 'stimulus';
 import * as fx from './fx';
 
-/* stimulusFetch: 'lazy' */
 export default class extends Controller {
   static targets = ['content'];
   static values = {

@@ -37,7 +37,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-/* stimulusFetch: 'lazy' */
 var _default = /*#__PURE__*/function (_Controller) {
   _inherits(_default, _Controller);
 
@@ -60,8 +59,6 @@ var _default = /*#__PURE__*/function (_Controller) {
         fx.fadeOut(this.element, function () {
           _this.element.remove();
         });
-        var event = new CustomEvent('umanit-block-bundle.afterRemoved');
-        document.dispatchEvent(event);
       }
     }
   }, {
