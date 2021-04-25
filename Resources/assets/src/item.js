@@ -15,9 +15,6 @@ export default class extends Controller {
       fx.fadeOut(this.element, () => {
         this.element.remove();
       });
-
-      const event = new CustomEvent('umanit-block-bundle.afterRemoved');
-      document.dispatchEvent(event);
     }
   }
 
