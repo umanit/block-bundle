@@ -55,7 +55,13 @@ var _default = /*#__PURE__*/function (_Controller) {
     value: function connect() {
       (0, _stimulusUse.useDispatch)(this);
       this.indexValue = this.positionTargets.length;
-      this.computeOrderOnSubmit();
+      this.computeOrderOnSubmit = this.computeOrderOnSubmit.bind(this);
+      this.selectTarget.form.addEventListener('submit', this.computeOrderOnSubmit);
+    }
+  }, {
+    key: "disconnect",
+    value: function disconnect() {
+      this.selectTarget.form.removeEventListener('submit', this.computeOrderOnSubmit);
     }
   }, {
     key: "add",
@@ -92,27 +98,24 @@ var _default = /*#__PURE__*/function (_Controller) {
     }
   }, {
     key: "computeOrderOnSubmit",
-    value: function computeOrderOnSubmit() {
-      var _this = this;
+    value: function computeOrderOnSubmit(e) {
+      e.preventDefault;
+      var i = 0;
 
-      this.selectTarget.form.addEventListener('submit', function () {
-        var i = 0;
+      var _iterator = _createForOfIteratorHelper(this.positionTargets),
+          _step;
 
-        var _iterator = _createForOfIteratorHelper(_this.positionTargets),
-            _step;
-
-        try {
-          for (_iterator.s(); !(_step = _iterator.n()).done;) {
-            var position = _step.value;
-            ++i;
-            position.value = i;
-          }
-        } catch (err) {
-          _iterator.e(err);
-        } finally {
-          _iterator.f();
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var position = _step.value;
+          ++i;
+          position.value = i;
         }
-      });
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
     }
   }, {
     key: "getPrototype",

@@ -13,7 +13,13 @@ export default class extends Controller {
 
     this.indexValue = this.positionTargets.length;
 
-    this.computeOrderOnSubmit();
+    this.computeOrderOnSubmit = this.computeOrderOnSubmit.bind(this);
+
+    this.selectTarget.form.addEventListener('submit', this.computeOrderOnSubmit);
+  }
+
+  disconnect() {
+    this.selectTarget.form.removeEventListener('submit', this.computeOrderOnSubmit);
   }
 
   add(e) {
@@ -61,16 +67,15 @@ export default class extends Controller {
     e.currentTarget.value = '';
   }
 
-  computeOrderOnSubmit() {
-    this.selectTarget.form.addEventListener('submit', () => {
-      let i = 0;
+  computeOrderOnSubmit(e) {
+    e.preventDefault;
+    let i = 0;
 
-      for (const position of this.positionTargets) {
-        ++i;
+    for (const position of this.positionTargets) {
+      ++i;
 
-        position.value = i;
-      }
-    });
+      position.value = i;
+    }
   }
 
   getPrototype(blockType) {
