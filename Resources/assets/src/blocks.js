@@ -68,7 +68,6 @@ export default class extends Controller {
   }
 
   computeOrderOnSubmit(e) {
-    e.preventDefault;
     let i = 0;
 
     for (const position of this.positionTargets) {

@@ -99,7 +99,6 @@ var _default = /*#__PURE__*/function (_Controller) {
   }, {
     key: "computeOrderOnSubmit",
     value: function computeOrderOnSubmit(e) {
-      e.preventDefault;
       var i = 0;
 
       var _iterator = _createForOfIteratorHelper(this.positionTargets),
