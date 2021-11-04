@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.3]
+## Fixed
+- Add support for symfony/contracts ^2.3
+
 ## [3.0.2]
 ### Added
 - Add PHP 8.0 support
@@ -58,7 +62,8 @@ inject the `@twig` service yourself
 ## [1.1.6] - 2019-10-30
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/3.0.2...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/3.0.3...HEAD
+[3.0.3]: https://github.com/umanit/block-bundle/compare/3.0.2...3.0.3
 [3.0.2]: https://github.com/umanit/block-bundle/compare/3.0.1...3.0.2
 [3.0.1]: https://github.com/umanit/block-bundle/compare/3.0.0...3.0.1
 [3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.1...3.0.0
