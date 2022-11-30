@@ -33,12 +33,12 @@ trait BlockTrait
      */
     protected $position;
 
-    public function getPanel(): Panel
+    public function getPanel(): ?Panel
     {
         return $this->panel;
     }
 
-    public function setPanel(Panel $panel = null): void
+    public function setPanel(?Panel $panel = null): void
     {
         $this->panel = $panel;
     }

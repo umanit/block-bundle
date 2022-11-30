@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Umanit\BlockBundle\TranslationHandler;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Umanit\BlockBundle\Entity\Panel;
 use Umanit\BlockBundle\Model\BlockInterface;
@@ -46,6 +47,7 @@ class PanelHandler implements TranslationHandlerInterface
         /** @var Panel $source */
         $source = $args->getDataToBeTranslated();
         $translation = clone $source;
+        $newBlocks = new ArrayCollection();
 
         // Clone all blocks into new entity
         foreach ($source->getBlocks() as $sourceBlock) {
@@ -62,8 +64,12 @@ class PanelHandler implements TranslationHandlerInterface
             $translatedBlock->setPanel($translation);
             // Re-set the panel of the source block
             $sourceBlock->setPanel($source);
+            $newBlocks->add($translatedBlock);
             $this->em->persist($translatedBlock);
         }
+
+
+        $translation->setBlocks($newBlocks);
 
         return $translation;
     }
