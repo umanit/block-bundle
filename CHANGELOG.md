@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.3]
+### Fixed
+- Allow the use of translation bundle on content with blocks
+
 ## [2.0.2]
 ### Added
 - Add PHP 8.0 support
@@ -44,7 +48,8 @@ inject the `@twig` service yourself
 ## [1.1.6] - 2019-10-30
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.2...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.3...2.x
+[2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/umanit/block-bundle/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/umanit/block-bundle/compare/1.1.6...2.0.0
