@@ -36,6 +36,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use [Symfony UX](https://symfony.com/ux) with stimulus to handle JS scripts
 
+## [2.0.5]
+
 ### Changed
 
 - Changes package requirement from `symfony/contracts` to `symfony/translation-contracts`
@@ -95,7 +97,8 @@ Initial version for the CHANGELOG. Last version of the 1.x branch.
 [3.0.3]: https://github.com/umanit/block-bundle/compare/3.0.2...3.0.3
 [3.0.2]: https://github.com/umanit/block-bundle/compare/3.0.1...3.0.2
 [3.0.1]: https://github.com/umanit/block-bundle/compare/3.0.0...3.0.1
-[3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.4...3.0.0
+[3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.5...3.0.0
+[2.0.5]: https://github.com/umanit/block-bundle/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/umanit/block-bundle/compare/2.0.3...2.0.4
 [2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.1...2.0.2
