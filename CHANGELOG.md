@@ -36,6 +36,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use [Symfony UX](https://symfony.com/ux) with stimulus to handle JS scripts
 
+### Changed
+
+- Changes package requirement from `symfony/contracts` to `symfony/translation-contracts`
+
 ## [2.0.4]
 ### Removed
 
