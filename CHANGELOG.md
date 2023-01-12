@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changes package requirement from `symfony/contracts` to `symfony/translation-contracts`
+
 ## [2.0.4]
 
 ### Removed
