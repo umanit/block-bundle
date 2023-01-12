@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.5]
+
 ### Changed
 
 - Changes package requirement from `symfony/contracts` to `symfony/translation-contracts`
@@ -74,7 +76,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.4...2.x
+[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.5...2.x
+
+[2.0.5]: https://github.com/umanit/block-bundle/compare/2.0.4...2.0.5
 
 [2.0.4]: https://github.com/umanit/block-bundle/compare/2.0.3...2.0.4
 
