@@ -79,7 +79,7 @@ class Panel implements PanelInterface
         return $this->blocks;
     }
 
-    public function setBlocks(ArrayCollection $blocks = null): Panel
+    public function setBlocks(Collection $blocks = null): PanelInterface
     {
         $this->blocks = $blocks;
 
