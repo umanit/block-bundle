@@ -13,9 +13,9 @@ interface BlockInterface
 {
     public function getId(): ?int;
 
-    public function getPanel(): ?Panel;
+    public function getPanel(): ?PanelInterface;
 
-    public function setPanel(Panel $panel = null): void;
+    public function setPanel(PanelInterface $panel = null): void;
 
     public function getPosition(): ?int;
 
