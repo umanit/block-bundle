@@ -7,11 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Removed
-
 - Removes unnecessary `composer.lock`
 
 ### Added
-
 - Adds compatibility with v3 of `symfony/contracts`
 
 ## [3.0.3]
@@ -29,12 +27,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use a custom domain for translations
 
-# Added
+### Added
 - Add translations for French and English
 
 ## [3.0.0]
 ### Changed
 - Use [Symfony UX](https://symfony.com/ux) with stimulus to handle JS scripts
+
+## [2.0.6]
+
+### Added
+
+- Add a `PanelInterface`
 
 ## [2.0.5]
 
@@ -97,10 +101,11 @@ Initial version for the CHANGELOG. Last version of the 1.x branch.
 [3.0.3]: https://github.com/umanit/block-bundle/compare/3.0.2...3.0.3
 [3.0.2]: https://github.com/umanit/block-bundle/compare/3.0.1...3.0.2
 [3.0.1]: https://github.com/umanit/block-bundle/compare/3.0.0...3.0.1
-[3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.5...3.0.0
+[3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.6...3.0.0
+[2.0.6]: https://github.com/umanit/block-bundle/compare/2.0.5...2.0.6
 [2.0.5]: https://github.com/umanit/block-bundle/compare/2.0.4...2.0.5
 [2.0.4]: https://github.com/umanit/block-bundle/compare/2.0.3...2.0.4
-[2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.2...2.0.3
+[2.0.3]: https://github.com/umanit/block-bundle/compare/2.0.2...2.0.3
 [2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.1...2.0.2
 [2.0.1]: https://github.com/umanit/block-bundle/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/umanit/block-bundle/compare/1.1.6...2.0.0
