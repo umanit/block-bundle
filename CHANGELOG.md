@@ -6,12 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [3.1.0]
+
 ### Added
 
 - Adds support for `symfony/*` ^6.0
 - Adds support for EasyAdmin:
-  - Adds a `PanelField`, for use in EasyAdmin
-  - Adds a `easy_admin/form/panel.html.twig` view
+    - Adds a `PanelField`, for use in EasyAdmin
+    - Adds a `easy_admin/form/panel.html.twig` view
 - Adds PHP 8 attributes to the `BlockTrait`
 
 ### Changed
@@ -24,11 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removes the `composer.lock` file
 
 ## [3.0.3]
+
 ## Fixed
 
 - Add support for symfony/contracts ^2.3
 
 ## [3.0.2]
+
 ### Added
 
 - Add PHP 8.0 support
@@ -38,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use `useDispatch` in `block` controller instead of a custom event
 
 ## [3.0.1]
+
 ### Changed
 
 - Use a custom domain for translations
@@ -47,41 +53,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add translations for French and English
 
 ## [3.0.0]
+
 ### Changed
 
 - Use [Symfony UX](https://symfony.com/ux) with stimulus to handle JS scripts
 
 ## [2.0.6]
+
 ### Added
 
 - Add a `PanelInterface`
 
 ## [2.0.5]
+
 ### Changed
 
 - Changes package requirement from `symfony/contracts` to `symfony/translation-contracts`
 
 ## [2.0.4]
+
 ### Added
 
 - Adds compatibility with v3 of `symfony/contracts`
 
 ## [2.0.3]
+
 ### Fixed
 
 - Allow the use of translation bundle on content with blocks
 
 ## [2.0.2]
+
 ### Added
 
 - Add PHP 8.0 support
 
 ## [2.0.1]
+
 ### Changed
 
 - Add compatibility with Symfony 5.2
 
 ## [2.0.0]
+
 ### Added
 
 - Add a `Block` entity with `JOINED` inheritance to handle end user blocks
@@ -112,18 +126,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   inject the `@twig` service yourself
 
 ## [1.1.6] - 2019-10-30
+
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/3.0.3...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/3.1.0...HEAD
+
+[3.1.0]: https://github.com/umanit/block-bundle/compare/3.0.3...3.1.0
+
 [3.0.3]: https://github.com/umanit/block-bundle/compare/3.0.2...3.0.3
+
 [3.0.2]: https://github.com/umanit/block-bundle/compare/3.0.1...3.0.2
+
 [3.0.1]: https://github.com/umanit/block-bundle/compare/3.0.0...3.0.1
+
 [3.0.0]: https://github.com/umanit/block-bundle/compare/2.0.6...3.0.0
+
 [2.0.6]: https://github.com/umanit/block-bundle/compare/2.0.5...2.0.6
+
 [2.0.5]: https://github.com/umanit/block-bundle/compare/2.0.4...2.0.5
+
 [2.0.4]: https://github.com/umanit/block-bundle/compare/2.0.3...2.0.4
+
 [2.0.3]: https://github.com/umanit/block-bundle/compare/2.0.2...2.0.3
+
 [2.0.2]: https://github.com/umanit/block-bundle/compare/2.0.1...2.0.2
+
 [2.0.1]: https://github.com/umanit/block-bundle/compare/2.0.0...2.0.1
+
 [2.0.0]: https://github.com/umanit/block-bundle/compare/1.1.6...2.0.0
+
 [1.1.6]: https://github.com/umanit/block-bundle/compare/0.1...1.1.6
