@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
-- Removes the `composer.lock` and `.php-version` files
+- Removes the `composer.lock` file
 
 ## [3.0.3]
 ## Fixed
