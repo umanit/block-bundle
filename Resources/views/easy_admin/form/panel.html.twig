@@ -1,0 +1,94 @@
+{% trans_default_domain 'UmanitBlockBundle' %}
+
+{% macro panel_block_item(context) %}
+  {% set accordion_header = ('<i class="fas fw fa-chevron-right form-collection-item-collapse-marker"></i> ' ~ context.header|raw) %}
+  <div data-block-type="{{ context.type }}"
+       data-name="{{ context.name }}"
+      {{ stimulus_controller('umanit/block-bundle/item', {
+        removeBlock: 'block.confirm_remove_block'|trans,
+        closedIcon: accordion_header,
+        openIcon: accordion_header
+      }) }}
+  >
+    <div class="accordion-item">
+      <div class="accordion-header d-flex justify-content-between align-items-center">
+        <button class="accordion-button {{ context.open|default(false) ? '' : 'collapsed' }}" type="button" data-action="click->umanit--block-bundle--item#toggle">
+          {{ accordion_header|raw }}
+        </button>
+        <div>
+          <span class="badge badge-{{ context.state_class|default('') }}" {{ (context.state_attr|default(''))|raw }}>
+            {{ context.name }}
+          </span>
+          <button type="button" class="btn btn-link js-panel-sortable-handler">
+            <i class="fa-solid fa-arrows-up-down-left-right"></i>
+          </button>
+          <button type="button" class="btn btn-link btn-link-danger" data-action="click->umanit--block-bundle--item#remove">
+            <i class="far fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="accordion-collapse collapse {{ context.open|default(false) ? 'show' : '' }}" data-umanit--block-bundle--item-target="content">
+        <div class="accordion-body">
+          {{ context.body|raw }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endmacro panel_block_item %}
+
+{% block panel_widget %}
+  <div {{ stimulus_controller('umanit/block-bundle/blocks', { newBlock: 'block.new'|trans }) }}>
+    <div {{ stimulus_target('umanit/block-bundle/blocks', 'panel') }}
+        id="{{ form.vars.id }}"
+        data-block-item-prototype="{{ _self.panel_block_item({
+          open: true,
+          type: '__type__',
+          name: '__name__',
+          state_class: 'warning',
+          state_attr: 'title="' ~ 'block.not_saved'|trans ~ '"',
+          position: '__position__',
+          header: '__header__',
+          body_attr: '__body_attr__',
+          body: '__body__',
+        })|e('html_attr') }}"
+        {{ stimulus_controller('umanit/block-bundle/sortable', { handle: '.js-panel-sortable-handler'}) }}
+    >
+      {# protos #}
+      {% for block_name, block_view in form.blocks %}
+        <div {{ stimulus_target('umanit/block-bundle/blocks', 'prototype') }}
+            data-block-type="{{ block_name }}"
+            data-block-name="{{ block_name }}"
+            data-block-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
+        </div>
+      {% endfor %}
+
+      {% for item in form.vars.ordered_blocks %}
+        {% set block_name = item.type %}
+        {% set block = item.content %}
+        {% set block_type = form.blocks.offsetGet(block_name) %}
+
+        {% for block_form_view in block_type %}
+          {% if not block_form_view.rendered and block_form_view.vars.value is same as(block) %}
+            {% set panel_block = block_form_view %}
+
+            {{ _self.panel_block_item({
+              type: block_name,
+              name: item.name,
+              state_class: block.id ? 'info' : 'warning',
+              state_attr: not block.id ? 'title="' ~ 'block.not_saved'|trans ~ '"',
+              position: panel_block.vars.value.position,
+              header: block,
+              body_attr: panel_block.vars.valid ? 'style="display:none;"'|raw,
+              body: form_row(panel_block)
+            }) }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    {{ form_row(form.block_select_type, { attr: {
+      'data-action': 'change->umanit--block-bundle--blocks#add',
+      'data-umanit--block-bundle--blocks-target': 'select'
+    } }) }}
+  </div>
+{% endblock %}

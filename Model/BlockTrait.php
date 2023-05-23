@@ -16,6 +16,9 @@ trait BlockTrait
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
     private $id;
 
     /**
@@ -24,6 +27,8 @@ trait BlockTrait
      * @ORM\ManyToOne(targetEntity="Umanit\BlockBundle\Entity\Panel")
      * @ORM\JoinColumn(name="panel_id", referencedColumnName="id", onDelete="CASCADE")
      */
+    #[ORM\ManyToOne(targetEntity: Panel::class)]
+    #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     protected $panel;
 
     /**
@@ -31,6 +36,7 @@ trait BlockTrait
      *
      * @ORM\Column(name="position", type="integer")
      */
+    #[ORM\Column(name: 'position', type: 'integer')]
     protected $position;
 
     public function getPanel(): PanelInterface
