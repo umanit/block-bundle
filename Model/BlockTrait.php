@@ -19,7 +19,7 @@ trait BlockTrait
     private $id;
 
     /**
-     * @var Panel
+     * @var PanelInterface
      *
      * @ORM\ManyToOne(targetEntity="Umanit\BlockBundle\Entity\Panel")
      * @ORM\JoinColumn(name="panel_id", referencedColumnName="id", onDelete="CASCADE")
@@ -33,12 +33,12 @@ trait BlockTrait
      */
     protected $position;
 
-    public function getPanel(): Panel
+    public function getPanel(): PanelInterface
     {
         return $this->panel;
     }
 
-    public function setPanel(Panel $panel = null): void
+    public function setPanel(PanelInterface $panel = null): void
     {
         $this->panel = $panel;
     }

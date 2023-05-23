@@ -7,13 +7,14 @@ namespace Umanit\BlockBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Umanit\BlockBundle\Model\PanelInterface;
 
 /**
  * @ORM\Table(name="umanit_block_panel")
  * @ORM\Entity(repositoryClass="Umanit\BlockBundle\Repository\PanelRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Panel
+class Panel implements PanelInterface
 {
     /**
      * @var int
@@ -78,7 +79,7 @@ class Panel
         return $this->blocks;
     }
 
-    public function setBlocks(ArrayCollection $blocks = null): Panel
+    public function setBlocks(Collection $blocks = null): PanelInterface
     {
         $this->blocks = $blocks;
 

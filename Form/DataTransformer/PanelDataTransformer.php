@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Umanit\BlockBundle\Entity\Panel;
+use Umanit\BlockBundle\Model\PanelInterface;
 
 class PanelDataTransformer implements DataTransformerInterface
 {
@@ -22,7 +23,7 @@ class PanelDataTransformer implements DataTransformerInterface
 
     public function transform($value): ?array
     {
-        if (!$value instanceof Panel) {
+        if (!$value instanceof PanelInterface) {
             return null;
         }
 
