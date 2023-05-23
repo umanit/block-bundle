@@ -4,8 +4,7 @@
  * @see https://github.com/stimulus-components/stimulus-sortable
  */
 
-import { Controller } from 'stimulus';
-import { useDispatch } from 'stimulus-use';
+import { Controller } from '@hotwired/stimulus';
 import Sortable from 'sortablejs';
 
 export default class extends Controller {
@@ -20,8 +19,6 @@ export default class extends Controller {
   }
 
   connect() {
-    useDispatch(this);
-
     this.sortable = new Sortable(this.element, {
       ...this.defaultOptions,
       ...this.options,
@@ -35,13 +32,17 @@ export default class extends Controller {
 
   start() {
     this.dispatch('start', {
-      panel: this.element,
+      detail: {
+        panel: this.element,
+      },
     });
   }
 
   end() {
     this.dispatch('end', {
-      panel: this.element,
+      detail: {
+        panel: this.element,
+      },
     });
   }
 

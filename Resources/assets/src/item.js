@@ -1,10 +1,12 @@
-import { Controller } from 'stimulus';
+import { Controller } from '@hotwired/stimulus';
 import * as fx from './fx';
 
 export default class extends Controller {
   static targets = ['content'];
   static values = {
     removeBlock: String,
+    closedIcon: String,
+    openIcon: String
   };
 
   remove(e) {
@@ -20,10 +22,14 @@ export default class extends Controller {
   toggle(e) {
     e.preventDefault();
 
+    if (e.currentTarget.classList.contains('accordion-button')) {
+      e.currentTarget.classList.toggle('collapsed');
+    }
+
     if ('none' !== window.getComputedStyle(this.contentTarget).display) {
-      e.currentTarget.innerHTML = '<i class="caret right icon"></i>';
+      e.currentTarget.innerHTML = this.closedIconValue;
     } else {
-      e.currentTarget.innerHTML = '<i class="caret down icon"></i>';
+      e.currentTarget.innerHTML = this.openIconValue;
     }
 
     fx.slideToggle(this.contentTarget);

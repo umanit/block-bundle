@@ -1,5 +1,4 @@
-import { Controller } from 'stimulus';
-import { useDispatch } from 'stimulus-use';
+import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
   static targets = ['panel', 'select', 'position', 'prototype'];
@@ -9,8 +8,6 @@ export default class extends Controller {
   };
 
   connect() {
-    useDispatch(this);
-
     this.indexValue = this.positionTargets.length;
 
     this.computeOrderOnSubmit = this.computeOrderOnSubmit.bind(this);
@@ -56,9 +53,19 @@ export default class extends Controller {
 
     // Add custom javascript event on the new panel
     this.dispatch('after-add', {
-      panel: this.panelTarget,
-      item: insertedItem,
+      detail: {
+        panel: this.panelTarget,
+        item: insertedItem,
+      },
     });
+
+    ///////////////////////////////////////////////////////
+    // COMPATIBILITY WITH EASYADMIN ///////////////////////
+    ///////////////////////////////////////////////////////
+    // Allows EasyAdmin JS to be bound to new blocks, without
+    // the controller prefix (allows for EA types like
+    // FileUploadType to be used within blocks)
+    this.dispatch('ea.collection.item-added', { prefix: null });
 
     // Scroll to newly created block
     insertedItem.scrollIntoView({ behavior: 'smooth', block: 'start' });

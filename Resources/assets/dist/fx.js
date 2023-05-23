@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.slideToggle = exports.slideDown = exports.slideUp = exports.fadeOut = void 0;
+exports.slideUp = exports.slideToggle = exports.slideDown = exports.fadeOut = void 0;
 
 // @see https://gist.github.com/alirezas/c4f9f43e9fe1abba9a4824dd6fc60a55
 var fadeOut = function fadeOut(el, cb) {

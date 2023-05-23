@@ -4,7 +4,9 @@
   <div data-block-type="{{ context.type }}"
        data-name="{{ context.name }}"
           {{ stimulus_controller('umanit/block-bundle/item', {
-            removeBlock: 'block.confirm_remove_block'|trans
+            removeBlock: 'block.confirm_remove_block'|trans,
+            closedIcon: '<i class="caret right icon"></i>',
+            openIcon: '<i class="caret down icon"></i>'
           }) }}
   >
     <div class="content">

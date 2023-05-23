@@ -22,7 +22,7 @@ UmanitBlockBundle intends to solve this problem by giving back their entities to
 
 ## Front requirements
 
-* Use [Symfony UX](https://symfony.com/ux)
+* Use [Symfony UX](https://symfony.com/doc/current/frontend/ux.html)
 
 ## Install
 
@@ -43,8 +43,9 @@ Add one of the Twig's form theme
 # config/packages/twig.yaml
 twig:
     form_themes:
-        # When using Sylius, the only available for the moment
+        # When using Sylius
         - '@UmanitBlock/sylius/form/panel.html.twig'
+        # Read further for integration with EasyAdmin 4
 ```
 
 Add `@umanit/block-bundle` dev-dependency in your `package.json`. This part is automatically done if you use Flex in
@@ -155,6 +156,8 @@ $builder->add('content', PanelType::class, [
     'unauthorized_blocks' => [MyBlock::class]
 ]);
 ```
+
+**[Read further](#integration-with-easyadmin-4) for integration with EasyAdmin 4 and defining a `PanelField` in your CRUDController**
 
 ### Create a Block entity and its Block Manager
 
@@ -336,6 +339,11 @@ Use the twig function `umanit_block_render` to render each of your blocks.
 You can pass an array of parameters to `umanit_block_render`. This parameters will be passed to the `render` method of
 the `BlockManager`.
 
+## Embedding a panel within a collection item
+
+Block Bundle uses Stimulus, so you don't need to do anything on your end: controllers will be instantiated as they're
+added to the DOM.
+
 ## Integration with UmanitTranslationBundle
 
 This bundle is fully compatible with [UmanitTranslationBundle](https://github.com/umanit/translation-bundle). Once
@@ -346,3 +354,52 @@ so:
 ```php
 $builder->add('content', PanelType::class, ['locale' => 'be']);
 ```
+
+## Integration with EasyAdmin 4
+
+### Registering the provided form theme
+
+In your `DashboardController`:
+```php
+class DashboardController extends AbstractDashboardController
+{
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+                   // ...
+                   ->setFormThemes([
+                       // ...
+                       '@UmanitBlock/easy_admin/form/panel.html.twig'
+                   ])
+        ;
+    }
+}
+```
+
+### Using the `PanelField`
+
+If defining a `CrudController`, you can use the provided `PanelField`:
+```php
+public function configureFields(string $pageName): iterable
+{
+    yield PanelField::new('content');
+}
+```
+
+As with `PanelType`, you can define either `authorized_blocks` or `unauthorized_blocks`
+if you need to restrict the available block list to some chosen options.
+```php
+                    ->setFormTypeOption('authorized_blocks', [MyBlock::class])
+                    // or
+                    ->setFormTypeOption('unauthorized_blocks', [MyBlock::class])
+```
+
+### Using a form type from EasyAdmin within a block
+
+You might want to use `FileUploadType`, for example, in your blocks.
+Block Bundle only works with Symfony form types, which means you will not be able to use EA fields in them and leverage
+their powerful configurators. You can, however, still use the associated form type in your block form type but you might
+need to get your hands dirty with the options.
+
+The `block.js` Stimulus controllers dispatches the `ea.collection.item-added` after a block has been added to the DOM,
+so EA JS will be bound to it.
