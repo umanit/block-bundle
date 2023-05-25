@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.7]
+
+### Added
+
+- Symfony 6 support
+
 ## [2.0.6]
 
 ### Added
@@ -82,7 +88,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.6...2.x
+[Unreleased]: https://github.com/umanit/block-bundle/compare/2.0.7...2.x
+
+[2.0.7]: https://github.com/umanit/block-bundle/compare/2.0.6...2.0.5
 
 [2.0.6]: https://github.com/umanit/block-bundle/compare/2.0.5...2.0.4
 
