@@ -25,9 +25,6 @@
   "scripts": {
     "build": "babel src -d dist"
   },
-  "peerDependencies": {
-    "@hotwired/stimulus": "^3.0.0"
-  },
   "dependencies": {
     "sortablejs": "^1.10.2",
     "stimulus-use": "^0.50.0",
@@ -39,6 +36,9 @@
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
     "core-js": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@hotwired/stimulus": "^3.0.0"
   },
   "keywords": ["symfony-ux"]
 }

@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Adds support for Sonata Admin 4
+- Adds documentation on how to use with CKEditor
+
+### Changed
+
+- Updates the `easy_admin/form/panel.html.twig` view
+
 ## [3.1.0]
 
 ### Added

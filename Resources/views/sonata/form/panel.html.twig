@@ -1,0 +1,91 @@
+{% trans_default_domain 'UmanitBlockBundle' %}
+
+{% macro panel_block_item(context) %}
+  <div data-block-type="{{ context.type }}"
+       data-name="{{ context.name }}"
+      {{ stimulus_controller('umanit/block-bundle/item', {
+        removeBlock: 'block.confirm_remove_block'|trans,
+        closedIcon: '<i class="fas fa-caret-right"></i>',
+        openIcon: '<i class="fas fa-caret-down"></i>'
+      }) }}
+       class="ublock ui-sortable-handle js-panel-sortable-handler">
+    <div class="box box-solid ui-sortable-handle">
+      <div class="box-header with-border">
+        <h3 class="box-title">
+          <span class="badge bg-{{ context.state_class }}" {{ context.state_attr }}>{{ context.name }}</span>
+          {{ context.header|raw }}
+        </h3>
+        <div class="box-tools pull-right">
+          <button type="button" class="btn btn-box-tool js-panel-sortable-handler">
+            <i class="fa fa-arrows text-primary"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-action="click->umanit--block-bundle--item#remove">
+            <i class="fas fa-trash text-danger"></i>
+          </button>
+          <button type="button" class="btn btn-box-tool" data-action="click->umanit--block-bundle--item#toggle">
+            <i class="fas fa-caret-left"></i>
+          </button>
+        </div>
+      </div>
+      <div class="box-body" {{ (context.body_attr|default(''))|raw }} data-umanit--block-bundle--item-target="content">
+        {{ context.body|raw }}
+      </div>
+    </div>
+  </div>
+{% endmacro panel_block_item %}
+
+{% block panel_widget %}
+  <div {{ stimulus_controller('umanit/block-bundle/blocks', { newBlock: 'block.new'|trans }) }}>
+    <div {{ stimulus_target('umanit/block-bundle/blocks', 'panel') }}
+        id="{{ form.vars.id }}"
+        data-block-item-prototype="{{ _self.panel_block_item({
+          open: true,
+          type: '__type__',
+          name: '__name__',
+          state_class: 'yellow',
+          state_attr: 'title="' ~ 'block.not_saved'|trans ~ '"',
+          position: '__position__',
+          header: '__header__',
+          body_attr: '__body_attr__',
+          body: '__body__',
+        })|e('html_attr') }}"
+        {{ stimulus_controller('umanit/block-bundle/sortable', { handle: '.js-panel-sortable-handler'}) }}>
+      {# protos #}
+      {% for block_name, block_view in form.blocks %}
+        <div {{ stimulus_target('umanit/block-bundle/blocks', 'prototype') }}
+            data-block-type="{{ block_name }}"
+            data-block-name="{{ block_name }}"
+            data-block-prototype="{{ form_widget(form.blocks.offsetGet(block_name).vars.prototype)|e('html_attr') }}">
+        </div>
+      {% endfor %}
+
+      {% for item in form.vars.ordered_blocks %}
+        {% set block_name = item.type %}
+        {% set block = item.content %}
+        {% set block_type = form.blocks.offsetGet(block_name) %}
+
+        {% for block_form_view in block_type %}
+          {% if not block_form_view.rendered and block_form_view.vars.value is same as(block) %}
+            {% set panel_block = block_form_view %}
+
+            {{ _self.panel_block_item({
+              type: block_name,
+              name: item.name,
+              state_class: block.id ? 'light-blue' : 'yellow',
+              state_attr: not block.id ? 'title="' ~ 'block.not_saved'|trans ~ '"',
+              position: panel_block.vars.value.position,
+              header: block,
+              body_attr: panel_block.vars.valid ? 'style="display:none;"'|raw,
+              body: form_row(panel_block)
+            }) }}
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+
+    {{ form_row(form.block_select_type, { attr: {
+      'data-action': 'change->umanit--block-bundle--blocks#add',
+      'data-umanit--block-bundle--blocks-target': 'select',
+    } }) }}
+  </div>
+{% endblock %}

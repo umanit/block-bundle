@@ -94,6 +94,60 @@ yarn install --force
 yarn encore dev
 ```
 
+### Warning
+
+Your Stimulus app must be running on your back end if you want to use this bundle: make sure the `bootstrap.js` file
+that starts it is imported.
+Your script must be loaded using `encore_entry_script_tags()`.
+
+Here are exemples on how to do that depending on your back end library, given an `admin.js` file on your end:
+
+### EasyAdmin 4
+
+In your `DashboardController`, you can do it this way:
+
+```php
+class DashboardController extends AbstractDashboardController
+{   
+    public function configureAssets(): Assets
+    {
+        return parent::configureAssets()
+                     ->addWebpackEncoreEntry('admin')
+        ;
+    }
+}
+```
+
+### Sonata Admin 4
+
+## Configuration
+
+```yaml
+sonata_admin:
+    templates:
+        form_theme:
+            - 'admin/sonata_form_theme.html.twig'
+    assets:
+        extra_javascripts:
+            - 'build/admin/app.js'
+```
+
+* `app.js` needs to import your `bootstrap.js`, that loads both your own Stimulus controllers and those of Block Bundle
+  in your Stimulus backend application
+    * if using CKEditor, see [the dedicated documentation](ckeditor.md)
+
+You'll have to modify your `webpack.config.js` to allow your Stimulus controllers to work in your Sonata backend:
+
+```js
+// DO
+Encore.disableSingleRuntimeChunk();
+
+// DON'T
+Encore
+  .splitEntryChunks()
+  .enableSingleRuntimeChunk();
+```
+
 ## Usage
 
 ### Terminology
@@ -117,6 +171,7 @@ use Umanit\BlockBundle\Entity\Panel;
 /**
  * @ORM\Entity()
  */
+ #[ORM\Entity]
 class Page
 {
     // Your other fields...
@@ -127,6 +182,8 @@ class Page
      * @ORM\ManyToOne(targetEntity="Umanit\BlockBundle\Entity\Panel", cascade={"persist"})
      * @ORM\JoinColumn(name="panel_id", referencedColumnName="id")
      */
+    #[ORM\ManyToOne(targetEntity: 'Umanit\BlockBundle\Entity\Panel', cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id')]
     protected $content;
     
     // Getters and Setters...
@@ -157,7 +214,8 @@ $builder->add('content', PanelType::class, [
 ]);
 ```
 
-**[Read further](#integration-with-easyadmin-4) for integration with EasyAdmin 4 and defining a `PanelField` in your CRUDController**
+**[Read further](#integration-with-easyadmin-4) for integration with EasyAdmin 4 and defining a `PanelField` in your
+CRUDController**
 
 ### Create a Block entity and its Block Manager
 
@@ -174,6 +232,7 @@ use Umanit\BlockBundle\Entity\Block;
 /**
  * @ORM\Entity()
  */
+ #[ORM\Entity]
 class TitleAndText extends Block
 {
     /**
@@ -181,6 +240,7 @@ class TitleAndText extends Block
      *
      * @ORM\Column(name="title", type="string")
      */
+    #[ORM\Column(name: 'title', type: 'string')]
     private $title;
 
     /**
@@ -188,6 +248,7 @@ class TitleAndText extends Block
      *
      * @ORM\Column(name="text", type="text")
      */
+    #[ORM\Column(name: 'text', type: 'text')]
     private $text;
     
     // getters and setters ...
@@ -203,7 +264,7 @@ class TitleAndText extends Block
 
 ```
 
-Then, create a `Block Manager` service and it's `FormType` which should extend `AbstractBlockType`. This service will
+Then, create a `Block Manager` service and its `FormType` which should extend `AbstractBlockType`. This service will
 define the form used to administrate your `Block`. It will also allow you to define the rendering of the `Block` in the
 front end.
 
@@ -360,6 +421,7 @@ $builder->add('content', PanelType::class, ['locale' => 'be']);
 ### Registering the provided form theme
 
 In your `DashboardController`:
+
 ```php
 class DashboardController extends AbstractDashboardController
 {
@@ -379,6 +441,7 @@ class DashboardController extends AbstractDashboardController
 ### Using the `PanelField`
 
 If defining a `CrudController`, you can use the provided `PanelField`:
+
 ```php
 public function configureFields(string $pageName): iterable
 {
@@ -388,6 +451,7 @@ public function configureFields(string $pageName): iterable
 
 As with `PanelType`, you can define either `authorized_blocks` or `unauthorized_blocks`
 if you need to restrict the available block list to some chosen options.
+
 ```php
                     ->setFormTypeOption('authorized_blocks', [MyBlock::class])
                     // or
@@ -403,3 +467,7 @@ need to get your hands dirty with the options.
 
 The `block.js` Stimulus controllers dispatches the `ea.collection.item-added` after a block has been added to the DOM,
 so EA JS will be bound to it.
+
+## CKEditor
+
+[Read the dedicated CKEditor documentation if you want to use it in your blocks](_doc/ckeditor.md)
