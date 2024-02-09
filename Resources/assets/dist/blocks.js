@@ -76,9 +76,11 @@ var _default = /*#__PURE__*/function (_Controller) {
 
       var blockItemProto = this.panelTarget.dataset.blockItemPrototype.replace(/__type__/g, selectedblockType).replace(/__name__/g, selectedblockName).replace(/__state_class__/g, 'yellow').replace(/__position__/g, this.indexValue).replace(/__header__/g, this.newBlockValue + ' ' + selectedblockName).replace(/__body_attr__/g, '').replace(/__body__/g, proto.dataset.blockPrototype.replace(/__umanit_block__/g, this.indexValue)); // Increment the index by one for the next item
 
-      ++this.indexValue; // Display html content
+      ++this.indexValue; // Display html content (with <script> execution, necessary for WYSIWYG
+      // fields managed by CKEditor, for example)
 
-      this.panelTarget.insertAdjacentHTML('beforeend', blockItemProto);
+      var fragment = document.createRange().createContextualFragment(blockItemProto);
+      this.panelTarget.appendChild(fragment);
       var insertedItem = this.panelTarget.lastElementChild; // Add custom javascript event on the new panel
 
       this.dispatch('after-add', {

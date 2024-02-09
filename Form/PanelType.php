@@ -56,11 +56,12 @@ class PanelType extends AbstractType
                 return null === $value ? '' : (new \ReflectionClass($value->getManagedBlockType()))->getShortName();
             },
             'attr'         => [
-                'data-role' => 'selecttoggle',
+                'data-role'           => 'selecttoggle',
+                'data-sonata-select2' => 'false',        // Tells Sonata Admin to use a regular <select> tag
             ],
             'choice_attr'  => function (AbstractBlockManager $value) {
                 return [
-                    'data-target' => 'type-'.(new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
+                    'data-target' => 'type-' . (new \ReflectionClass($value->getManagedBlockType()))->getShortName(),
                     'data-name'   => $this->translator->trans($value->getPublicName(), [], 'UmanitBlockBundle'),
                 ];
             },
@@ -158,7 +159,11 @@ class PanelType extends AbstractType
                 continue;
             }
 
-            $blockManagers[$this->translator->trans($blockManager->getPublicName(), [], 'UmanitBlockBundle')] = $blockManager;
+            $blockManagers[$this->translator->trans(
+                $blockManager->getPublicName(),
+                [],
+                'UmanitBlockBundle'
+            )] = $blockManager;
         }
 
         ksort($blockManagers);

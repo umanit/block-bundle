@@ -46,8 +46,11 @@ export default class extends Controller {
     // Increment the index by one for the next item
     ++this.indexValue;
 
-    // Display html content
-    this.panelTarget.insertAdjacentHTML('beforeend', blockItemProto);
+    // Display html content (with <script> execution, necessary for WYSIWYG
+    // fields managed by CKEditor, for example)
+    const fragment = document.createRange().createContextualFragment(blockItemProto);
+
+    this.panelTarget.appendChild(fragment);
 
     const insertedItem = this.panelTarget.lastElementChild;
 
