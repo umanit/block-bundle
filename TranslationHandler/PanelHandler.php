@@ -25,18 +25,18 @@ class PanelHandler implements TranslationHandlerInterface
         return $args->getDataToBeTranslated() instanceof Panel;
     }
 
-    public function handleSharedAmongstTranslations(TranslationArgs $args)
+    public function handleSharedAmongstTranslations(TranslationArgs $args): Panel
     {
         // @fixme: should return something else.
         return new Panel();
     }
 
-    public function handleEmptyOnTranslate(TranslationArgs $args)
+    public function handleEmptyOnTranslate(TranslationArgs $args): Panel
     {
         return new Panel();
     }
 
-    public function translate(TranslationArgs $args)
+    public function translate(TranslationArgs $args): Panel
     {
         /** @var Panel $source */
         $source = $args->getDataToBeTranslated();
@@ -61,7 +61,6 @@ class PanelHandler implements TranslationHandlerInterface
             $newBlocks->add($translatedBlock);
             $this->em->persist($translatedBlock);
         }
-
 
         $translation->setBlocks($newBlocks);
 
