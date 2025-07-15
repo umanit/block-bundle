@@ -8,53 +8,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Umanit\BlockBundle\Model\PanelInterface;
+use Umanit\BlockBundle\Repository\PanelRepository;
 
-/**
- * @ORM\Table(name="umanit_block_panel")
- * @ORM\Entity(repositoryClass="Umanit\BlockBundle\Repository\PanelRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Table(name: 'umanit_block_panel')]
+#[ORM\Entity(repositoryClass: PanelRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Panel implements PanelInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
+    #[ORM\Column(name: 'id', type: 'integer')]
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    protected ?int $id;
 
-    /**
-     * @var ArrayCollection|null
-     *
-     * @ORM\ManyToMany(targetEntity="Umanit\BlockBundle\Entity\Block", cascade={"persist"})
-     * @ORM\JoinTable(
-     *      name="umanit_block_panel_blocks",
-     *      joinColumns={@ORM\JoinColumn(name="panel_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="block_id_id", referencedColumnName="id", unique=true)}
-     * )
-     * @ORM\OrderBy({"position": "ASC"})
-     */
-    protected $blocks;
+    #[ORM\ManyToMany(targetEntity: Block::class, cascade: ['persist'])]
+    #[ORM\JoinTable(name: 'umanit_block_panel_blocks')]
+    #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'block_id_id', referencedColumnName: 'id', unique: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    protected ?ArrayCollection $blocks;
 
-    /**
-     * @var \DateTime $created
-     *
-     * @ORM\Column(name="created_at", type="datetime")
-     */
-    protected $createdAt;
+    #[ORM\Column(name: 'created_at', type: 'datetime')]
+    protected ?\DateTime $createdAt;
 
-    /**
-     * @var \DateTime $updated
-     *
-     * @ORM\Column(name="updated_at", type="datetime", nullable = true)
-     */
-    protected $updatedAt;
+    #[ORM\Column(name: 'updated_at', type: 'datetime', nullable: true)]
+    protected ?\DateTime $updatedAt;
 
-    /**
-     * Panel constructor.
-     */
     public function __construct()
     {
         $this->blocks = new ArrayCollection();
