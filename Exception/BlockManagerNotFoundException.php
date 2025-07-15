@@ -10,7 +10,7 @@ class BlockManagerNotFoundException extends \Exception
 {
     public function __construct(BlockInterface $blockEntity)
     {
-        parent::__construct(sprintf(
+        parent::__construct(\sprintf(
             'A BlockManager could not be found for block of type "%s".',
             \get_class($blockEntity)
         ));
