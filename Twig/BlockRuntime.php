@@ -27,6 +27,7 @@ class BlockRuntime implements RuntimeExtensionInterface
      *
      * @return string
      * @throws BlockManagerNotFoundException
+     * @throws \Exception
      */
     public function renderBlock(BlockInterface $block, array $parameters = []): string
     {
