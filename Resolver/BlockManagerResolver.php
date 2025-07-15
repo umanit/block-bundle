@@ -16,7 +16,7 @@ use Umanit\BlockBundle\Model\BlockInterface;
 class BlockManagerResolver
 {
     /** @var AbstractBlockManager[] */
-    protected $blockManagers = [];
+    protected array $blockManagers = [];
 
     public function __construct(iterable $blockManagers)
     {

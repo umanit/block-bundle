@@ -20,23 +20,11 @@ use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 class PanelType extends AbstractType
 {
-    /** @var BlockManagerResolver */
-    private $blockManagerResolver;
-
-    /** @var PanelDataTransformer */
-    private $panelDataTransformer;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
     public function __construct(
-        BlockManagerResolver $blockManagerResolver,
-        PanelDataTransformer $panelDataTransformer,
-        TranslatorInterface $translator
+        private readonly BlockManagerResolver $blockManagerResolver,
+        private readonly PanelDataTransformer $panelDataTransformer,
+        private readonly TranslatorInterface $translator
     ) {
-        $this->blockManagerResolver = $blockManagerResolver;
-        $this->panelDataTransformer = $panelDataTransformer;
-        $this->translator = $translator;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

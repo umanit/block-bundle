@@ -14,16 +14,10 @@ use Umanit\TranslationBundle\Translation\Handlers\TranslationHandlerInterface;
 
 class PanelHandler implements TranslationHandlerInterface
 {
-    /** @var EntityTranslator */
-    private $translator;
-
-    /** @var EntityManagerInterface */
-    private $em;
-
-    public function __construct(EntityTranslator $translator, EntityManagerInterface $em)
-    {
-        $this->translator = $translator;
-        $this->em = $em;
+    public function __construct(
+        private readonly EntityTranslator $translator,
+        private readonly EntityManagerInterface $em
+    ) {
     }
 
     public function supports(TranslationArgs $args): bool

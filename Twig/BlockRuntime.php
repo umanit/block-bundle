@@ -12,23 +12,11 @@ use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 class BlockRuntime implements RuntimeExtensionInterface
 {
-    /** @var BlockManagerResolver */
-    private $blockManagerResolver;
-
-    /** @var bool */
-    private $debugIsEnabled;
-
-    /** @var LoggerInterface */
-    private $logger;
-
     public function __construct(
-        BlockManagerResolver $blockManagerResolver,
-        LoggerInterface $logger,
-        $debugIsEnabled = false
+        private readonly BlockManagerResolver $blockManagerResolver,
+        private readonly LoggerInterface $logger,
+        private readonly bool $debugIsEnabled = false
     ) {
-        $this->blockManagerResolver = $blockManagerResolver;
-        $this->logger = $logger;
-        $this->debugIsEnabled = $debugIsEnabled;
     }
 
     /**
