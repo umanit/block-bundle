@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [4.0.0]
+
+### Changed
+
+- Bump dependencies
+
 ## [3.1.1]
 
 ### Added
@@ -140,7 +146,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/3.1.1...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/4.0.0...HEAD
+
+[4.0.0]: https://github.com/umanit/block-bundle/compare/3.1.1...4.0.0
 
 [3.1.1]: https://github.com/umanit/block-bundle/compare/3.1.0...3.1.1
 
