@@ -25,7 +25,7 @@ class Panel implements PanelInterface
     #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'block_id_id', referencedColumnName: 'id', unique: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
-    protected ?ArrayCollection $blocks;
+    protected Collection $blocks;
 
     #[ORM\Column(name: 'created_at', type: 'datetime')]
     protected ?\DateTime $createdAt;
