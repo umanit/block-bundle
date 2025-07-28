@@ -14,16 +14,10 @@ use Umanit\TranslationBundle\Translation\Handlers\TranslationHandlerInterface;
 
 class PanelHandler implements TranslationHandlerInterface
 {
-    /** @var EntityTranslator */
-    private $translator;
-
-    /** @var EntityManagerInterface */
-    private $em;
-
-    public function __construct(EntityTranslator $translator, EntityManagerInterface $em)
-    {
-        $this->translator = $translator;
-        $this->em = $em;
+    public function __construct(
+        private readonly EntityTranslator $translator,
+        private readonly EntityManagerInterface $em
+    ) {
     }
 
     public function supports(TranslationArgs $args): bool
@@ -31,18 +25,18 @@ class PanelHandler implements TranslationHandlerInterface
         return $args->getDataToBeTranslated() instanceof Panel;
     }
 
-    public function handleSharedAmongstTranslations(TranslationArgs $args)
+    public function handleSharedAmongstTranslations(TranslationArgs $args): Panel
     {
         // @fixme: should return something else.
         return new Panel();
     }
 
-    public function handleEmptyOnTranslate(TranslationArgs $args)
+    public function handleEmptyOnTranslate(TranslationArgs $args): Panel
     {
         return new Panel();
     }
 
-    public function translate(TranslationArgs $args)
+    public function translate(TranslationArgs $args): Panel
     {
         /** @var Panel $source */
         $source = $args->getDataToBeTranslated();
@@ -67,7 +61,6 @@ class PanelHandler implements TranslationHandlerInterface
             $newBlocks->add($translatedBlock);
             $this->em->persist($translatedBlock);
         }
-
 
         $translation->setBlocks($newBlocks);
 
