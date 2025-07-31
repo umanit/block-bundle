@@ -18,7 +18,7 @@ class Panel implements PanelInterface
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    protected ?int $id;
+    protected ?int $id = null;
 
     #[ORM\ManyToMany(targetEntity: Block::class, cascade: ['persist'])]
     #[ORM\JoinTable(name: 'umanit_block_panel_blocks')]

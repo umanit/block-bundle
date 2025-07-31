@@ -12,7 +12,7 @@ trait BlockTrait
     #[ORM\Column(name: 'id', type: 'integer')]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    private ?int $id;
+    private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Panel::class)]
     #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
