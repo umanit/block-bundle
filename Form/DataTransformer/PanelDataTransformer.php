@@ -17,7 +17,7 @@ class PanelDataTransformer implements DataTransformerInterface
     {
     }
 
-    public function transform($value): ?array
+    public function transform(mixed $value): ?array
     {
         if (!$value instanceof PanelInterface) {
             return null;
@@ -36,7 +36,7 @@ class PanelDataTransformer implements DataTransformerInterface
         return $rawData;
     }
 
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         if (empty($value['id'])) {
             $panel = new Panel();

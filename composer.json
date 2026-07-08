@@ -17,11 +17,11 @@
     }
   ],
   "require": {
-    "php": "^8.1",
+    "php": "^8.2",
     "symfony/translation-contracts": "^3.0",
-    "symfony/form": "^5.4|^6.0",
-    "symfony/framework-bundle": "^5.4|^6.0",
-    "symfony/validator": "^5.4|^6.0",
+    "symfony/form": "^5.4|^6.0|^7.0",
+    "symfony/framework-bundle": "^5.4|^6.0|^7.0",
+    "symfony/validator": "^5.4|^6.0|^7.0",
     "doctrine/doctrine-bundle": "^2.1",
     "doctrine/orm": "^3.0"
   },

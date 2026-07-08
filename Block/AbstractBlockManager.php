@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Umanit\BlockBundle\Block;
 
-use Symfony\Component\Form\AbstractType;
 use Umanit\BlockBundle\Model\BlockInterface;
 
-abstract class AbstractBlockManager extends AbstractType
+abstract class AbstractBlockManager
 {
     /**
      * This method must return the block entity managed by this block manager.

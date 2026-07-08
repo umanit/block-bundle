@@ -30,5 +30,5 @@ services:
             - '@umanit_block.form.panel_data_transformer'
             - '@translator'
         tags:
-            - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }
+            - { name: form.type }
     Umanit\BlockBundle\Form\PanelType: '@umanit_block.form.panel_type'

@@ -39,9 +39,7 @@ class Panel implements PanelInterface
         $this->createdAt = new \DateTime();
     }
 
-    /**
-     * @ORM\PreUpdate()
-     */
+    #[ORM\PreUpdate]
     public function preUpdate(): void
     {
         $this->updatedAt = new \DateTime();
@@ -57,7 +55,7 @@ class Panel implements PanelInterface
         return $this->blocks;
     }
 
-    public function setBlocks(Collection $blocks = null): PanelInterface
+    public function setBlocks(?Collection $blocks = null): PanelInterface
     {
         $this->blocks = $blocks;
 
