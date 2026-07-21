@@ -7,7 +7,6 @@ namespace Umanit\BlockBundle\Twig;
 use Psr\Log\LoggerInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
-use Umanit\BlockBundle\Model\BlockInterface;
 use Umanit\BlockBundle\Resolver\BlockManagerResolver;
 
 class BlockExtension extends AbstractExtension
@@ -38,41 +37,14 @@ class BlockExtension extends AbstractExtension
         bool $debugIsEnabled = false
     ) {
         $this->blockManagerResolver = $blockManagerResolver;
-        $this->logger               = $logger;
-        $this->debugIsEnabled       = $debugIsEnabled;
+        $this->logger = $logger;
+        $this->debugIsEnabled = $debugIsEnabled;
     }
-
 
     public function getFunctions(): array
     {
         return [
             new TwigFunction('umanit_block_render', [BlockRuntime::class, 'renderBlock'], ['is_safe' => ['html']]),
         ];
-    }
-
-    /**
-     * Renders a block.
-     *
-     * @param BlockInterface $block
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function renderBlock(BlockInterface $block)
-    {
-        $blockManager = $this->blockManagerResolver->resolveManager($block);
-        $html         = '';
-
-        try {
-            $html = $blockManager->render($block);
-        } catch (\Exception $e) {
-            if (true === $this->debugIsEnabled) {
-                throw $e;
-            }
-            // If debug is not enabled (prod), silent the exception and log
-            $this->logger->critical($e->getMessage());
-        }
-
-        return $html;
     }
 }
