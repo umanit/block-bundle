@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [5.0.0] - 2026-07-22
+
+### Added
+
+- Add `mixed` type declarations to `PanelDataTransformer::transform()` and
+  `reverseTransform()` to satisfy the `DataTransformerInterface` signature
+
+### Removed
+
+- Remove `extends AbstractType` from `AbstractBlockManager`: this class is
+  not a form type and the inheritance caused DI conflicts in Symfony 7
+- Remove deprecated `alias` key from `form.type` tag in `services.yml`
+
+### Fixed
+
+- Fix `Panel::setBlocks()` nullable parameter: `Collection $blocks = null`
+  → `?Collection $blocks = null`
+
+### Changed
+
+- Bump `php` constraint to `^8.2` (required by Symfony 7)
+- Widen Symfony constraints to include `^7.0` for `symfony/form`,
+  `symfony/framework-bundle`, and `symfony/validator`
+- Replace deprecated `@ORM\PreUpdate()` docblock annotation with
+  PHP 8 attribute `#[ORM\PreUpdate]` (Doctrine ORM 3.x ignores annotations)
+- Replace `\get_class($obj)` with `$obj::class` in `PanelType` and
+  `BlockManagerResolver` (modern PHP 8 idiom)
+
+### [4.0.1] - 2025-08-06
+
+### Fixed
+
+- Default value for entites ID
+
 ## [4.0.0]
 
 ### Changed
@@ -146,7 +180,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/4.0.0...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/5.0.0...HEAD
+
+[5.0.0]: https://github.com/umanit/block-bundle/compare/4.0.1...5.0.0
+
+[4.0.1]: https://github.com/umanit/block-bundle/compare/4.0.0...4.0.1
 
 [4.0.0]: https://github.com/umanit/block-bundle/compare/3.1.1...4.0.0
 
