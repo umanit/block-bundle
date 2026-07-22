@@ -35,8 +35,8 @@ class BlockManagerResolver
      */
     public function resolveManager(BlockInterface $blockEntity): AbstractBlockManager
     {
-        if (isset($this->blockManagers[\get_class($blockEntity)])) {
-            return $this->blockManagers[\get_class($blockEntity)];
+        if (isset($this->blockManagers[$blockEntity::class])) {
+            return $this->blockManagers[$blockEntity::class];
         }
 
         throw new BlockManagerNotFoundException($blockEntity);

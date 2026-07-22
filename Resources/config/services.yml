@@ -7,6 +7,7 @@ services:
 
     umanit_block.twig.block_extension:
         class: Umanit\BlockBundle\Twig\BlockExtension
+        arguments: ['@umanit_block.resolver.block_manager_resolver', '@logger', '%kernel.debug%']
         tags:
             - { name: twig.extension }
     Umanit\BlockBundle\Twig\BlockExtension: '@umanit_block.twig.block_extension'
@@ -30,5 +31,5 @@ services:
             - '@umanit_block.form.panel_data_transformer'
             - '@translator'
         tags:
-            - { name: form.type, alias: Umanit\BlockBundle\Form\PanelType }
+            - { name: form.type }
     Umanit\BlockBundle\Form\PanelType: '@umanit_block.form.panel_type'

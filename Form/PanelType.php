@@ -98,7 +98,7 @@ class PanelType extends AbstractType
         if ($form->getData()) {
             foreach ($form->getData()->getBlocks() as $block) {
                 foreach ($blockManagers as $blockManager) {
-                    if (\get_class($block) !== $blockManager->getManagedBlockType()) {
+                    if ($block::class !== $blockManager->getManagedBlockType()) {
                         continue;
                     }
 
