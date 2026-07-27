@@ -21,7 +21,7 @@ trait BlockTrait
     #[ORM\Column(name: 'position', type: 'integer')]
     protected ?int $position;
 
-    public function getPanel(): PanelInterface
+    public function getPanel(): ?PanelInterface
     {
         return $this->panel;
     }

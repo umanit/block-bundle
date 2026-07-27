@@ -40,7 +40,9 @@ class PanelHandler implements TranslationHandlerInterface
     {
         /** @var Panel $source */
         $source = $args->getDataToBeTranslated();
-        $translation = clone $source;
+        // A plain `clone` would copy the source's id too, causing a duplicate
+        // primary key violation once Doctrine tries to insert this "new" entity.
+        $translation = new Panel();
         $newBlocks = new ArrayCollection();
 
         // Clone all blocks into new entity
