@@ -16,7 +16,7 @@ trait BlockTrait
 
     #[ORM\ManyToOne(targetEntity: Panel::class)]
     #[ORM\JoinColumn(name: 'panel_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?PanelInterface $panel;
+    protected ?PanelInterface $panel = null;
 
     #[ORM\Column(name: 'position', type: 'integer')]
     protected ?int $position;

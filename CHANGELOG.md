@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### [5.0.1] - 2026-07-27
+
+### Fixed
+
+- `BlockTrait::getPanel()` is typed to return `?PanelInterface` since it can be null.
+- `PanelHandler` now instantiates a `new Panel()` instead of `clone $source` when creating a translation, since cloning
+  copied the source's id and caused a duplicate primary key violation on insert.
+
 ### [5.0.0] - 2026-07-22
 
 ### Added
@@ -180,7 +188,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 Initial version for the CHANGELOG. Last version of the 1.x branch.
 
-[Unreleased]: https://github.com/umanit/block-bundle/compare/5.0.0...HEAD
+[Unreleased]: https://github.com/umanit/block-bundle/compare/5.0.1...HEAD
+
+[5.0.1]: https://github.com/umanit/block-bundle/compare/5.0.1...5.0.1
 
 [5.0.0]: https://github.com/umanit/block-bundle/compare/4.0.1...5.0.0
 
